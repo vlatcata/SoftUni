@@ -18,10 +18,10 @@ namespace MirrorWords
             foreach (Match item in matches)
             {
                 string firstWord = item.Groups[2].Value;
-                string secondWord = ReverseString(item.Groups[4].Value);
-                if (firstWord == secondWord)
+                string secondWord = item.Groups[4].Value;
+                if (firstWord == ReverseString(secondWord))
                 {
-                    mirrorWords.Add(firstWord + " <=> " + item.Groups[4].Value);
+                    mirrorWords.Add(firstWord + " <=> " + secondWord);
                 }
             }
 
