@@ -1,51 +1,55 @@
 ﻿using System;
-using System.Text.RegularExpressions;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
-namespace MirrorWorlds
+namespace MirrorWords
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            List<string> firstMatches = new List<string>();
-            List<string> secondMatches = new List<string>();
-            string text = Console.ReadLine();
+            string input = Console.ReadLine();
+            Regex regex = new Regex(@"(@|#)([A-Za-z]{3,})(\1){2}([A-Za-z]{3,})(\1)");
+            MatchCollection matches = regex.Matches(input);
+            List<string> mirrorWords = new List<string>();
 
-            string pattern = @"(@|#)([A-Za-z]{3,})(\1){2}([A-Za-z]{3,})(\1)";
-            Regex regex = new Regex(pattern);
 
-            int count = 0;
-            var match = regex.Match(text);
-
-            for (int i = 0; i < match.Length; i++)
+            foreach (Match item in matches)
             {
-                count++;
-                string matchOne = match.Groups[2].Value;
-                string matchTwo = match.Groups[4].Value;
-
-                string reversed = ReverseNum(matchTwo);
-
-                if (reversed == matchOne)
+                string firstWord = item.Groups[2].Value;
+                string secondWord = ReverseString(item.Groups[4].Value);
+                if (firstWord == secondWord)
                 {
-                    firstMatches.Add(matchOne);
-                    secondMatches.Add(reversed);
+                    mirrorWords.Add(firstWord + " <=> " + item.Groups[4].Value);
+                }
+            }
+
+
+            if (matches.Count > 0)
+            {
+                Console.WriteLine($"{matches.Count} word pairs found!");
+                if (mirrorWords.Count > 0)
+                {
+                    Console.WriteLine("The mirror words are:");
+                    Console.WriteLine(String.Join(", ", mirrorWords));
                 }
                 else
                 {
-                    Console.WriteLine("No word pairs found!");
                     Console.WriteLine("No mirror words!");
                 }
             }
-
-            static string ReverseNum(string num)
+            else
             {
-                char[] newArr = num.ToCharArray();
-                Array.Reverse(newArr);
-                return new string(newArr);
+                Console.WriteLine("No word pairs found!");
+                Console.WriteLine("No mirror words!");
             }
+
+        }
+
+        public static string ReverseString(string stringvar)
+        {
+            return new string(stringvar.Reverse().ToArray());
         }
     }
-} 
-
+}
