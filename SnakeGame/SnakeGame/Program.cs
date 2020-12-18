@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+
 namespace Snake
 {
     class Program
@@ -76,9 +77,45 @@ namespace Snake
                 {
                     break;
                 }
+                Console.SetCursorPosition(hoofd.xpos, hoofd.ypos);
+                Console.ForegroundColor = hoofd.schermkleur;
+                Console.Write("■");
+                Console.SetCursorPosition(berryx, berryy);
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("■");
+                tijd = DateTime.Now;
+                buttonpressed = "no";
+                while (true)
+                {
+                    tijd2 = DateTime.Now;
+                    if (tijd2.Subtract(tijd).TotalMilliseconds > 500) { break; }
+                    if (Console.KeyAvailable)
+                    {
+                        ConsoleKeyInfo toets = Console.ReadKey(true);
+                        if (toets.Key.Equals(ConsoleKey.UpArrow) && movement != "DOWN" && buttonpressed == "no")
+                        {
+                            movement = "UP";
+                            buttonpressed = "yes";
+                        }
+                        if (toets.Key.Equals(ConsoleKey.DownArrow) && movement != "UP" && buttonpressed == "no")
+                        {
+                            movement = "DOWN";
+                            buttonpressed = "yes";
+                        }
+                        if (toets.Key.Equals(ConsoleKey.LeftArrow) && movement != "RIGHT" && buttonpressed == "no")
+                        {
+                            movement = "LEFT";
+                            buttonpressed = "yes";
+                        }
+                        if (toets.Key.Equals(ConsoleKey.RightArrow) && movement != "LEFT" && buttonpressed == "no")
+                        {
+                            movement = "RIGHT";
+                            buttonpressed = "yes";
+                        }
+                    }
+                }
             }
-               
-        
+        }
         class pixel
         {
             public int xpos { get; set; }
