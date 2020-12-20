@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace Snake
 {
@@ -114,7 +111,32 @@ namespace Snake
                         }
                     }
                 }
+                xposlijf.Add(hoofd.xpos);
+                yposlijf.Add(hoofd.ypos);
+                switch (movement)
+                {
+                    case "UP":
+                        hoofd.ypos--;
+                        break;
+                    case "DOWN":
+                        hoofd.ypos++;
+                        break;
+                    case "LEFT":
+                        hoofd.xpos--;
+                        break;
+                    case "RIGHT":
+                        hoofd.xpos++;
+                        break;
+                }
+                if (xposlijf.Count() > score)
+                {
+                    xposlijf.RemoveAt(0);
+                    yposlijf.RemoveAt(0);
+                }
             }
+            Console.SetCursorPosition(screenwidth / 5, screenheight / 2);
+            Console.WriteLine("Game over, Score: " + score);
+            Console.SetCursorPosition(screenwidth / 5, screenheight / 2 + 1);
         }
         class pixel
         {
