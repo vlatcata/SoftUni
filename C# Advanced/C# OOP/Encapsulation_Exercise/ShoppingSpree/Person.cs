@@ -44,7 +44,7 @@ namespace ShoppingSpree
         {
             if (product.Price > Money)
             {
-                throw new ArgumentException($"{Name} can't afford {product.Name}");
+                throw new InvalidOperationException($"{Name} can't afford {product.Name}");
             }
 
             products.Add(product);
@@ -55,7 +55,7 @@ namespace ShoppingSpree
         {
             if (products.Count == 0)
             {
-                return $"{Name} nothing bought";
+                return $"{Name} - Nothing bought";
             }
 
             return $"{Name} - {string.Join(", ", products.Select(p => p.Name))}";
