@@ -8,12 +8,11 @@ namespace Vehicles
     {
         private const double fuelIncrease = 0.9;
 
-        public Car(double fuelQuantity, double fuelConsumption) : base(fuelQuantity, fuelConsumption)
+        public Car(double fuelQuantity, double fuelConsumption, int capacity) : base(fuelQuantity, fuelConsumption, capacity)
         {
             FuelConsumption += fuelIncrease;
         }
 
-        
         public override void Drive(double kilometers)
         {
             if (FuelQuantity / FuelConsumption >= kilometers)
@@ -29,7 +28,18 @@ namespace Vehicles
 
         public override void Refuel(double amount)
         {
-            FuelQuantity += amount;
+            if (amount <= 0)
+            {
+                Console.WriteLine("Fuel must be a positive number");
+            }
+            if (FuelQuantity + amount <= Capacity)
+            {
+                FuelQuantity += amount;
+            }
+            else
+            {
+                Console.WriteLine($"Cannot fit {amount} fuel in the tank");
+            }
         }
     }
 }
