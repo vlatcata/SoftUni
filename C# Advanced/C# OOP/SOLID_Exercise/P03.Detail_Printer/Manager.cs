@@ -9,9 +9,14 @@ namespace P03.DetailPrinter
         private IReadOnlyCollection<string> documents;
         public Manager(string name, ICollection<string> documents) : base(name)
         {
-            this.documents = new List<string>(documents);
+            Documents = new List<string>(documents);
         }
 
         public IReadOnlyCollection<string> Documents { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Name}, {Documents}";
+        }
     }
 }
