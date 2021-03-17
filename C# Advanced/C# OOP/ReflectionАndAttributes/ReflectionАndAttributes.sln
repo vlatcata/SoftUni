@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stealer", "Stealer\Stealer.csproj", "{CF60175B-1FBE-41F1-9525-40275A1FA061}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthorProblem", "AuthorProblem\AuthorProblem.csproj", "{BF578CAD-6978-4FA7-B434-E2356010EB0C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF60175B-1FBE-41F1-9525-40275A1FA061}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF60175B-1FBE-41F1-9525-40275A1FA061}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF60175B-1FBE-41F1-9525-40275A1FA061}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF60175B-1FBE-41F1-9525-40275A1FA061}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF578CAD-6978-4FA7-B434-E2356010EB0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF578CAD-6978-4FA7-B434-E2356010EB0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF578CAD-6978-4FA7-B434-E2356010EB0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF578CAD-6978-4FA7-B434-E2356010EB0C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {029A4D85-FC37-4876-B1ED-27C385FE1B72}
+	EndGlobalSection
+EndGlobal
