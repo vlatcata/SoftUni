@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CommandPattern.Core;
+using CommandPattern.Core.Contracts;
+using System;
 
 namespace CommandPattern
 {
