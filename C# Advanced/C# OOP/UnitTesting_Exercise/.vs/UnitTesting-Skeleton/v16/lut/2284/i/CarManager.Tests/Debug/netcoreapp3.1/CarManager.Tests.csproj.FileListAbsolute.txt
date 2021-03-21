@@ -1,0 +1,12 @@
+C:\Programming\Projects\UnitTesting_Exercise\.vs\UnitTesting-Skeleton\v16\lut\0\b\CarManager.Tests\Debug\netcoreapp3.1\NUnit3.TestAdapter.dll
+C:\Programming\Projects\UnitTesting_Exercise\.vs\UnitTesting-Skeleton\v16\lut\0\b\CarManager.Tests\Debug\netcoreapp3.1\nunit.engine.netstandard.dll
+C:\Programming\Projects\UnitTesting_Exercise\.vs\UnitTesting-Skeleton\v16\lut\0\b\CarManager.Tests\Debug\netcoreapp3.1\Mono.Cecil.dll
+C:\Programming\Projects\UnitTesting_Exercise\.vs\UnitTesting-Skeleton\v16\lut\0\b\CarManager.Tests\Debug\netcoreapp3.1\CarManager.Tests.deps.json
+C:\Programming\Projects\UnitTesting_Exercise\.vs\UnitTesting-Skeleton\v16\lut\0\b\CarManager.Tests\Debug\netcoreapp3.1\CarManager.Tests.runtimeconfig.json
+C:\Programming\Projects\UnitTesting_Exercise\.vs\UnitTesting-Skeleton\v16\lut\0\b\CarManager.Tests\Debug\netcoreapp3.1\CarManager.Tests.runtimeconfig.dev.json
+C:\Programming\Projects\UnitTesting_Exercise\.vs\UnitTesting-Skeleton\v16\lut\0\b\CarManager.Tests\Debug\netcoreapp3.1\CarManager.Tests.dll
+C:\Programming\Projects\UnitTesting_Exercise\.vs\UnitTesting-Skeleton\v16\lut\0\i\CarManager.Tests\Debug\netcoreapp3.1\CarManager.Tests.AssemblyInfoInputs.cache
+C:\Programming\Projects\UnitTesting_Exercise\.vs\UnitTesting-Skeleton\v16\lut\0\i\CarManager.Tests\Debug\netcoreapp3.1\CarManager.Tests.AssemblyInfo.cs
+C:\Programming\Projects\UnitTesting_Exercise\.vs\UnitTesting-Skeleton\v16\lut\0\i\CarManager.Tests\Debug\netcoreapp3.1\CarManager.Tests.csproj.CopyComplete
+C:\Programming\Projects\UnitTesting_Exercise\.vs\UnitTesting-Skeleton\v16\lut\0\i\CarManager.Tests\Debug\netcoreapp3.1\CarManager.Tests.dll
+C:\Programming\Projects\UnitTesting_Exercise\.vs\UnitTesting-Skeleton\v16\lut\0\i\CarManager.Tests\Debug\netcoreapp3.1\CarManager.Tests.genruntimeconfig.cache
