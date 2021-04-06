@@ -13,7 +13,7 @@ namespace OnlineShop.Models.Products
         private decimal price;
         private double overallPerformance;
 
-        public Product(int id, string manufacturer, string model, decimal price, double overallPerformance)
+        protected Product(int id, string manufacturer, string model, decimal price, double overallPerformance)
         {
             Id = id;
             Manufacturer = manufacturer;

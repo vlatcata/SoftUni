@@ -127,7 +127,7 @@ namespace OnlineShop.Core
             peripherals.Add(peripheral);
             IComputer computer = computers.FirstOrDefault(x => x.Id == computerId);
             computer.AddPeripheral(peripheral);
-            return $"Component {peripheral.GetType().Name} with id {peripheral.Id} added successfully in computer with id {computer.Id}.";
+            return $"Peripheral {peripheral.GetType().Name} with id {peripheral.Id} added successfully in computer with id {computer.Id}.";
         }
 
         public string BuyBest(decimal budget)

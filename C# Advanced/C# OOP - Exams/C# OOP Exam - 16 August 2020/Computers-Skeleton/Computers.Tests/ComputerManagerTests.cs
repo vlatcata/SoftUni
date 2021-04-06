@@ -1,144 +1,166 @@
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 
 namespace Computers.Tests
 {
     public class Tests
     {
-        private Computer computer;
-        private ComputerManager computermanager;
-        private Computer pc;
+        ComputerManager computers;
 
         [SetUp]
         public void Setup()
         {
-            computer = new Computer("Asus", "Rog", 2000);
-            computermanager = new ComputerManager();
-            pc = new Computer("Asus", "Rog", -2);
+            computers = new ComputerManager();
         }
 
         [Test]
-        public void CheckComputerProperties()
+        public void C_Tor_Test()
         {
-            Assert.AreEqual(computer.Manufacturer, "Asus");
-            Assert.AreEqual(computer.Model, "Rog");
-            Assert.AreEqual(computer.Price, 2000);
+            Computer computer = new Computer("Asus", "gamer", 1000);
+
+            Assert.AreEqual("Asus", computer.Manufacturer);
+            Assert.AreEqual("gamer", computer.Model);
+            Assert.AreEqual(1000, computer.Price);
+            Assert.IsNotNull(computer);
         }
 
         [Test]
-        public void ComputermanagerProp()
+        public void Counter_Test_If_It_Empty()
         {
-            Assert.AreEqual(computermanager.Computers, string.Empty);
+            Assert.That(computers.Count, Is.Zero);
         }
 
         [Test]
-        public void CheckComputersCount()
+        public void Counter_Test_If_NotEmpty()
         {
-            computermanager.AddComputer(computer);
-            Assert.AreEqual(computermanager.Computers.Count, 1);
+            Computer computer = new Computer("Asus", "gamer", 1000);
+            computers.AddComputer(computer);
+
+            Assert.That(computers.Count, Is.EqualTo(1));
         }
 
         [Test]
-        public void RemoveComputer()
+        public void Test_If_ComputerAllreadyExist_Throw_Exception()
         {
-            computermanager.AddComputer(computer);
-            computermanager.RemoveComputer("Asus", "Rog");
-            Assert.AreEqual(computermanager.Computers.Count, 0);
+            Computer computer = new Computer("Asus", "gamer", 1000);
+            computers.AddComputer(computer);
+
+            Assert.Throws<ArgumentException>(() => computers.AddComputer(computer));
         }
 
         [Test]
-        public void AddMethod1()
+        public void ValidateNullValue_Message()
         {
-            Assert.Throws<ArgumentException>(() =>
-            {
-                computermanager.AddComputer(computer);
-                computermanager.AddComputer(computer);
-            });
+            Assert.Throws<ArgumentNullException>(() => computers.AddComputer(null));
         }
 
         [Test]
-        public void GetComputer()
+        public void RemoveCompTest()
         {
-            computermanager.AddComputer(computer);
-            computermanager.GetComputer("Asus", "Rog");
-            Assert.AreEqual(computermanager.GetComputer("Asus", "Rog"), computer);
+            Computer computer = new Computer("Asus", "gamer", 1000);
+            computers.AddComputer(computer);
+
+            Assert.That(computers.RemoveComputer("Asus", "gamer"), Is.EqualTo(computer));
         }
 
         [Test]
-        public void GetComputerNull()
+        public void RemoveCompThrowException()
         {
-            Assert.Throws<ArgumentException>(() =>
-            {
-                computermanager.AddComputer(computer);
-                computermanager.GetComputer("Boris", "Ivanov");
-            });
+            Computer computer = new Computer("Asus", "gamer", 1000);
+            computers.AddComputer(computer);
+
+            Assert.Throws<ArgumentException>(() => computers.RemoveComputer("Hp", "gamer"));
+        }
+
+        [Test]
+        public void RemoveComp_ReturnCorectCount()
+        {
+            Computer computer = new Computer("Asus", "gamer", 1000);
+            computers.AddComputer(computer);
+            computers.RemoveComputer("Asus", "gamer");
+
+            Assert.AreEqual(0, computers.Count);
+        }
+
+        [Test]
+        public void GetComp_IsNull()
+        {
+            Assert.Throws<ArgumentException>(() => computers.GetComputer("HP", "hp"));
+        }
+
+        [Test]
+        public void GetComp_ReturnValue()
+        {
+            Computer computer = new Computer("Asus", "gamer", 1000);
+            computers.AddComputer(computer);
+
+            Assert.That(computers.GetComputer("Asus", "gamer"), Is.EqualTo(computer));
         }
 
         [Test]
         public void GetComputerByManufacturer()
         {
-            List<Computer> computers = new List<Computer>();
-            Computer pc = new Computer("Asus", "Strix", 200);
-            Computer pc2 = new Computer("idk", "Strix", 200);
-            computermanager.AddComputer(computer);
-            computermanager.AddComputer(pc);
-            computermanager.AddComputer(pc2);
-            computers.Add(computer);
-            computers.Add(pc);
+            Computer computer = new Computer("Asus", "gamer", 1000);
+            computers.AddComputer(computer);
+            var result = computers.GetComputersByManufacturer("Asus");
 
-            computermanager.GetComputersByManufacturer("Asus");
-            Assert.AreEqual(computermanager.GetComputersByManufacturer("Asus"), computers);
+            Assert.That(result.Count, Is.EqualTo(1));
+            Assert.AreEqual(result, computers.Computers);
 
         }
 
-
         [Test]
-        public void Validatenullmethod()
+        public void Test_Computers_IReadOnly()
         {
-            Computer pc = null;
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                computermanager.AddComputer(pc);
-            });
+            Computer computerOne = new Computer("Asus", "gamer", 1000);
+            Computer computerTwo = new Computer("HP", "hp", 2000);
+            computers.AddComputer(computerOne);
+            computers.AddComputer(computerTwo);
+
+            var comp = computers.Computers;
+
+            Assert.That(comp.Count, Is.EqualTo(computers.Count));
         }
 
         [Test]
-        public void idk()
+        public void GetComputerShouldThrowExceptionWithNullModel_AndNullManufacterer()
         {
-            Assert.AreEqual(computermanager.Computers, new List<Computer>());
+            Computer computer = new Computer("Asus", "gamer", 1000);
+            computers.AddComputer(computer);
+
+            Assert.Throws<ArgumentNullException>(() => computers.GetComputer("Asus", null));
+
+
+        }
+        [Test]
+        public void GetComputerShouldThrowExceptionWithNullManufacterer()
+        {
+            Computer computer = new Computer("Asus", "gamer", 1000);
+            computers.AddComputer(computer);
+
+            Assert.Throws<ArgumentNullException>(() => computers.GetComputer(null, "gamer"));
+
         }
 
         [Test]
-        public void idk2()
+        public void GetByManufacturerShouldThrowExceptionWithNullManufacturer()
         {
-            Assert.Throws<ArgumentException>(() =>
-            {
-                computermanager.RemoveComputer("Bobi", "Ivan");
-            });
+            Assert.Throws<ArgumentNullException>(() => computers.GetComputersByManufacturer(null));
+
         }
 
         [Test]
-        public void idk3()
+        public void GetAllByManufacturerShouldReturnCorrectCollection()
         {
-            Assert.Throws<ArgumentException>(() =>
-            {
-                computermanager.GetComputer("Bobi", "Ivan");
-            });
-        }
+            Computer computer = new Computer("Asus", "gamer", 1000);
 
-        [Test]
-        public void GetComputerByManufacturer2()
-        {
-            var computer2 = computermanager.GetComputersByManufacturer("Boris");
-            Assert.AreEqual(computer2, "");
-        }
+            computers.AddComputer(computer);
+            computers.AddComputer(new Computer("Asus", "K210", 899.99m));
+            computers.AddComputer(new Computer("Hp", "P34", 420));
+            var collection = computers.GetComputersByManufacturer("Asus");
 
-        [Test]
-        public void idk4()
-        {
-            pc = null;
-            Assert.AreEqual(pc, null);
+            Assert.That(collection.Count, Is.EqualTo(2));
+
         }
 
     }
