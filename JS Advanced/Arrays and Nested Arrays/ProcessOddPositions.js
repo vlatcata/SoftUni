@@ -1,11 +1,11 @@
 function solve(array) {
-    let result = [];
+    let arr = [];
     for (let i = 0; i < array.length; i++) {
         if (i % 2 != 0) {
-            result += array[i] * 2 + ' ';
+            arr += array[i] * 2 + ' ';
         }
     }
-    let reversed = result.reverse();
+    let reversed = arr.toString().split(' ').reverse().join("\n");
     return reversed;
 }
 

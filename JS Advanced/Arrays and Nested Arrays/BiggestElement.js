@@ -1,14 +1,10 @@
-function solve(array) {
-    let biggestNum = 0;
-    for (let i = 0; i < array.length; i++) {
-        for (let j = 0; j < array.length; j++) {
-            const element = array[j];
-            if (element > biggestNum) {
-                biggestNum = element;
-            }
-        }
-    }
-    return biggestNum;
+function solve(matrixArray) {
+    let biggestNumber = Number.MIN_SAFE_INTEGER;
+    matrixArray.forEach(arr => {
+        let currBiggestNum = Math.max(...arr); //Splits the array 
+        if (currBiggestNum > biggestNumber) biggestNumber = currBiggestNum;
+    });
+    return biggestNumber;
 }
 
 console.log(solve([[20, 50, 10],
