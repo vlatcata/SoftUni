@@ -14,8 +14,6 @@ function solve() {
          products.push(productName);
          productPrice = Number(productPrice);
          totalMoney += productPrice;
-         console.log(productName);
-         console.log(productPrice);
          textAreaElement.textContent += `Added ${productName} for ${productPrice.toFixed(2)} to the cart.\n`;
       });
    }
