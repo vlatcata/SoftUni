@@ -11,15 +11,6 @@ describe('Test isSymetric fucntionality', () => {
         assert.equal(actualResult, expectedResult);
     });
 
-    it('Should not pass when array in not provided', () => {
-        let arr = 3;
-        let expectedResult = false;
-
-        let actualResult = isSymmetric(arr);
-
-        assert.equal(actualResult, expectedResult);
-    });
-
     it('Should not pass when array in not symetric', () => {
         let arr = [1, 2, 3, 3, 1];
         let expectedResult = false;
