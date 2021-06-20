@@ -69,7 +69,11 @@ function solve() {
         }
     }
 
-    return { Figure, Circle, Rectangle }
+    return {
+        Figure,
+        Circle,
+        Rectangle,
+    }
 }
 
 let c = new Circle(5);
