@@ -8,11 +8,13 @@ function onDetailsClickHanlder(e) {
     console.log(e);
 } 
 
-movieService.getAll()
-    .then(movies => {
-        movies[0].onDetailsClick = onDetailsClickHanlder;
+async function displayAllMovies(){
+    let movies = await movieService.getAll();
 
-        let movieListTemplateResult = movieListTemplate(movies);
-        
-        render(movieListTemplateResult, rootElement);
-    });
+    movies[0].onDetailsClick = onDetailsClickHanlder;
+
+    let displayMovies = movieListTemplate(movies);
+    render(displayMovies, rootElement);
+}
+
+displayAllMovies();
