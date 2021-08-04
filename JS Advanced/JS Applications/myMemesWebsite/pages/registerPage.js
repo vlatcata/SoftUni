@@ -32,11 +32,13 @@ let _router = undefined;
 let _renderHandler = undefined;
 let _authService = undefined;
 let _form = undefined;
+let _notifications = undefined;
 
-function initialize(router, renderHandler, authService) {
+function initialize(router, renderHandler, authService, notifications) {
     _router = router;
     _renderHandler = renderHandler;
     _authService = authService;
+    _notifications = notifications;
 }
 
 async function submitHandler(e) {
@@ -72,7 +74,8 @@ async function submitHandler(e) {
         
         if (_form.errorMessages.length > 0) {
             let templateResult = registerTemplate(_form);
-            alert(_form.errorMessages.join('\n'));
+            _notifications.createNotification(_form.errorMessages.join('\n'));
+            // alert(_form.errorMessages.join('\n'));
             return _renderHandler(templateResult);
         }
 
@@ -86,7 +89,8 @@ async function submitHandler(e) {
         await _authService.register(user);
         _router.redirect('/all-memes');
     } catch (err) {
-        alert(err);
+        _notifications.createNotification(`Error: ${err.message}`);
+        // alert(err);
     }
 }
 
