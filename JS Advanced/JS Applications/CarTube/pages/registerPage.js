@@ -59,7 +59,7 @@ async function submitHandler(e) {
 
         if (_form.errorMessages.length > 0) {
             let templateResult = registerTemplate(_form);
-            alert(_form.errorMessages);
+            alert(_form.errorMessages.join('\n'));
             return _renderHandler(templateResult);
         }
 

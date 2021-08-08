@@ -23,12 +23,12 @@ async function update(item, id){
     return result;
 }
 
-async function getAllMemes(){
+async function getAllCars(){
     let result = await jsonRequest(`${baseUrl}?sortBy=_createdOn%20desc`);
     return result;
 }
 
-async function getMyMemes(userId){
+async function getMyCars(userId){
     let result = await jsonRequest(`${baseUrl}?where=_ownerId%3D%22${userId}%22&sortBy=_createdOn%20desc`);
     return result;
 }
@@ -38,6 +38,10 @@ async function deleteItem(id){
     return result;
 }
 
+async function getByYear(year){
+    let result = await jsonRequest(`${baseUrl}?where=year%3D${year}`);
+    return result;
+}
 
 export default {
     getAll,
@@ -45,6 +49,7 @@ export default {
     create,
     update,
     deleteItem,
-    getAllMemes,
-    getMyMemes
+    getAllCars,
+    getMyCars,
+    getByYear
 }
