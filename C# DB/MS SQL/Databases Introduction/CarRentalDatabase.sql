@@ -43,6 +43,7 @@ CREATE TABLE [Customers] (
 	[Notes] NVARCHAR(200)
 )
 
+
 CREATE TABLE [RentalOrders] (
 	[Id] INT PRIMARY KEY IDENTITY,
 	[EmployeeId] INT FOREIGN KEY REFERENCES Employees(Id),
