@@ -16,7 +16,7 @@ WHERE [JobTitle] = 'Sales Representative'
 SELECT [FirstName], [LastName], [JobTitle] FROM Employees
 WHERE Salary BETWEEN 20000 AND 30000
 
-SELECT [FirstName] + ' ' + [MiddleName] + ' ' + [LastName] AS [Full Name] FROM Employees
+SELECT CONCAT([FirstName], ' ', [MiddleName], ' ', [LastName]) AS [Full Name] FROM Employees
 WHERE Salary = 25000 OR Salary = 14000 OR Salary = 12500 OR Salary = 23600
 
 SELECT [FirstName], [LastName] FROM Employees
