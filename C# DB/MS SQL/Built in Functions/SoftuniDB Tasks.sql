@@ -15,9 +15,11 @@ WHERE LEN([Name]) BETWEEN 5 AND 6
 ORDER BY [Name] ASC
 
 SELECT [TownID], [Name] FROM [Towns]
-WHERE [Name] NOT LIKE 'R%'
-AND [Name] NOT LIKE 'B%'
-AND [Name] NOT LIKE 'D%'
+WHERE [Name] LIKE '[MKBE]%'
+ORDER BY [Name] ASC
+
+SELECT [TownID], [Name] FROM [Towns]
+WHERE [Name] NOT LIKE '[RBD]%'
 ORDER BY [Name] ASC
 
 CREATE VIEW V_EmployeesHiredAfter2000 AS
