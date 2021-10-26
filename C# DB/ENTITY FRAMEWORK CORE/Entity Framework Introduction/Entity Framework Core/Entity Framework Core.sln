@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entrity Framework Core", "Entrity Framework Core\Entrity Framework Core.csproj", "{7F9E28A4-EDDF-4664-BB47-B19D37E170DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entity Framework Core", "Entity Framework Core\Entity Framework Core.csproj", "{87DC5848-C12D-496E-A822-2FBC8CFE4B69}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7F9E28A4-EDDF-4664-BB47-B19D37E170DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7F9E28A4-EDDF-4664-BB47-B19D37E170DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7F9E28A4-EDDF-4664-BB47-B19D37E170DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7F9E28A4-EDDF-4664-BB47-B19D37E170DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87DC5848-C12D-496E-A822-2FBC8CFE4B69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87DC5848-C12D-496E-A822-2FBC8CFE4B69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87DC5848-C12D-496E-A822-2FBC8CFE4B69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87DC5848-C12D-496E-A822-2FBC8CFE4B69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {AD4DB96E-322E-4CD5-A449-23B0EE78DB38}
+		SolutionGuid = {66D19785-C094-4080-BA09-39B56C43CB93}
 	EndGlobalSection
 EndGlobal
