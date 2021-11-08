@@ -19,6 +19,6 @@ namespace MusicHub.Data.Models
 
         public string Pseudonym { get; set; }
 
-        public ICollection<Song> Songs { get; set; }
+        public virtual ICollection<Song> Songs { get; set; }
     }
 }
