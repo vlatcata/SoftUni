@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using AutoMapper;
+using Castle.Core.Internal;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using ProductShop.Data;
 using ProductShop.Models;
 
@@ -19,14 +22,14 @@ namespace ProductShop
 
             //Console.WriteLine("Db was created!");
 
-            string users = File.ReadAllText(@"C:\Programming\SoftUni\C# DB\Entity Framework Core\JSON Processing\ProductShopDB\ProductShop\Datasets\users.json");
 
-            string products = File.ReadAllText(@"C:\Programming\SoftUni\C# DB\Entity Framework Core\JSON Processing\ProductShopDB\ProductShop\Datasets\products.json");
+            //string users = File.ReadAllText(@"C:\Programming\SoftUni\C# DB\Entity Framework Core\JSON Processing\ProductShopDB\ProductShop\Datasets\users.json");
 
-            string categoriesProducts = File.ReadAllText(@"C:\Programming\SoftUni\C# DB\Entity Framework Core\JSON Processing\ProductShopDB\ProductShop\Datasets\categories-products.json");
+            //string products = File.ReadAllText(@"C:\Programming\SoftUni\C# DB\Entity Framework Core\JSON Processing\ProductShopDB\ProductShop\Datasets\products.json");
 
-            string categories = File.ReadAllText(@"C:\Programming\SoftUni\C# DB\Entity Framework Core\JSON Processing\ProductShopDB\ProductShop\Datasets\categories.json");
+            //string categoriesProducts = File.ReadAllText(@"C:\Programming\SoftUni\C# DB\Entity Framework Core\JSON Processing\ProductShopDB\ProductShop\Datasets\categories-products.json");
 
+            //string categories = File.ReadAllText(@"C:\Programming\SoftUni\C# DB\Entity Framework Core\JSON Processing\ProductShopDB\ProductShop\Datasets\categories.json");
 
 
             //Console.WriteLine(ImportUsers(dbContext, users));
@@ -34,7 +37,9 @@ namespace ProductShop
             //Console.WriteLine(ImportCategories(dbContext, categories));
             //Console.WriteLine(ImportCategoryProducts(dbContext, categoriesProducts));
 
+
             //Console.WriteLine(GetProductsInRange(dbContext));
+            //Console.WriteLine(GetSoldProducts(dbContext));
             //Console.WriteLine(GetCategoriesByProductsCount(dbContext));
             Console.WriteLine(GetUsersWithProducts(dbContext));
         }
@@ -60,21 +65,25 @@ namespace ProductShop
 
         public static string ImportCategories(ProductShopContext context, string inputJson)
         {
-            List<Category> categories = JsonConvert.DeserializeObject<List<Category>>(inputJson);
+            IEnumerable<Category> categories = JsonConvert.DeserializeObject<IEnumerable<Category>>(inputJson).Where(x => !x.Name.IsNullOrEmpty());
             context.Categories.AddRange(categories);
-            int count = categories.Count;
             context.SaveChanges();
-            return $"Successfully imported {count}";
+            return $"Successfully imported {categories.Count()}";
         }
 
         public static string ImportCategoryProducts(ProductShopContext context, string inputJson)
         {
-            List<CategoryProduct> categoryProducts = JsonConvert.DeserializeObject<List<CategoryProduct>>(inputJson);
+            List<CategoryProduct> categoryProducts = JsonConvert.DeserializeObject<List<CategoryProduct>>(inputJson, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
+
             context.CategoryProducts.AddRange(categoryProducts);
             int count = categoryProducts.Count;
             context.SaveChanges();
             return $"Successfully imported {count}";
         }
+
 
         public static string GetProductsInRange(ProductShopContext context)
         {
@@ -85,11 +94,21 @@ namespace ProductShop
                 {
                     Name = p.Name,
                     Price = p.Price,
-                    Seller = p.Seller.FirstName + " " + p.Seller.LastName
+                    Seller = $"{p.Seller.FirstName} {p.Seller.LastName}"
                 })
+                .OrderBy(p => p.Price)
                 .ToList();
 
-            var productsToExport = JsonConvert.SerializeObject(products, Formatting.Indented);
+            var jsonSettings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                ContractResolver = new DefaultContractResolver()
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy()
+                }
+            };
+
+            var productsToExport = JsonConvert.SerializeObject(products, jsonSettings);
 
             return productsToExport;
         }
@@ -100,21 +119,30 @@ namespace ProductShop
                 .Where(u => u.ProductsSold.Any(p => p.Buyer != null))
                 .Select(u => new
                 {
-                    FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    SoldProducts = u.ProductsSold.Select(p => new
+                    firstName = u.FirstName,
+                    lastName = u.LastName,
+                    soldProducts = u.ProductsSold.Select(p => new
                     {
-                        Name = p.Name,
-                        Price = p.Price,
-                        BuyerFirstName = p.Buyer.FirstName,
-                        BuyerLastName = p.Buyer.LastName
+                        name = p.Name,
+                        price = p.Price,
+                        buyerFirstName = p.Buyer.FirstName,
+                        buyerLastName = p.Buyer.LastName
                     })
                 })
-                .OrderBy(u => u.LastName)
-                .ThenBy(u => u.FirstName)
+                .OrderBy(u => u.lastName)
+                .ThenBy(u => u.firstName)
                 .ToList();
 
-            var usersToExport = JsonConvert.SerializeObject(users);
+            var jsonSettings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                ContractResolver = new DefaultContractResolver()
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy()
+                }
+            };
+
+            var usersToExport = JsonConvert.SerializeObject(users, jsonSettings);
 
             return usersToExport;
         }
@@ -132,7 +160,16 @@ namespace ProductShop
                 })
                 .ToList();
 
-            var categoriesToExport = JsonConvert.SerializeObject(categories);
+            var jsonSettings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                ContractResolver = new DefaultContractResolver()
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy()
+                }
+            };
+
+            var categoriesToExport = JsonConvert.SerializeObject(categories, jsonSettings);
 
             return categoriesToExport;
         }
@@ -141,7 +178,6 @@ namespace ProductShop
         {
             var users = context.Users
                 .Where(u => u.ProductsSold.Any(p => p.Buyer != null))
-                .OrderByDescending(u => u.ProductsSold)
                 .Select(u => new
                 {
                     FirstName = u.FirstName,
@@ -155,10 +191,10 @@ namespace ProductShop
                             Name = p.Name,
                             Price = p.Price
                         })
-                            .ToArray()
+                            .ToList()
                     }
                 })
-                .OrderByDescending(u => u.SoldProducts)
+                .OrderByDescending(u => u.SoldProducts.Count)
                 .ToList();
 
             var usersToPrint = new
@@ -167,15 +203,25 @@ namespace ProductShop
                 Users = users
             };
 
-            var settings = new JsonSerializerSettings()
+            var jsonSettings = new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore
+                NullValueHandling = NullValueHandling.Ignore,
+                ContractResolver = new DefaultContractResolver()
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy()
+                }
             };
 
-            var result = JsonConvert.SerializeObject(usersToPrint, settings);
+            var result = JsonConvert.SerializeObject(usersToPrint, jsonSettings);
 
             return result;
+        }
+
+        private static void InitializeMapper()
+        {
+            var mapperConfiguration = new MapperConfiguration(cfg => { cfg.AddProfile<ProductShopProfile>(); });
+            IMapper mapper = new Mapper(mapperConfiguration);
         }
     }
 }
