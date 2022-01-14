@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using BasicWebServer.Server.Routing;
 
 namespace BasicWebServer.Server
 {
@@ -14,12 +15,26 @@ namespace BasicWebServer.Server
         private readonly int port;
         private readonly TcpListener serverListener;
 
-        public HttpServer(string _ipAdress, int _port)
+        private readonly RoutingTable routingTable;
+
+        public HttpServer(string _ipAdress, int _port, Action<IRoutingTable> routingTableConfiguration)
         {
             this.ipAdress = IPAddress.Parse(_ipAdress);
             this.port = _port;
 
             this.serverListener = new TcpListener(ipAdress, port);
+
+            routingTableConfiguration(routingTable = new RoutingTable());
+        }
+
+        public HttpServer(int port, Action<IRoutingTable> routingTable) : this("127.0.0.1", port, routingTable)
+        {
+            
+        }
+
+        public HttpServer(Action<IRoutingTable> routingTable) : this(8080, routingTable)
+        {
+            
         }
 
         public void Start()
