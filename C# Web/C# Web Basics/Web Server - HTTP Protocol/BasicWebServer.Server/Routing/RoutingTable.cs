@@ -57,7 +57,7 @@ namespace BasicWebServer.Server.Routing
             var requestMethod = request.Method;
             var requestUrl = request.Url;
 
-            if (routes.ContainsKey(requestMethod) || routes[requestMethod].ContainsKey(requestUrl))
+            if (!routes.ContainsKey(requestMethod) || !routes[requestMethod].ContainsKey(requestUrl))
             {
                 return new NotFoundResponse();
             }
