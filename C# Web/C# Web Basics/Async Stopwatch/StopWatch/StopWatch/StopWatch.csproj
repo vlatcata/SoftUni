@@ -5,11 +5,6 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <LangVersion>preview</LangVersion>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\BasicWebServer.Server\BasicWebServer.Server.csproj" />
-  </ItemGroup>
 
 </Project>
