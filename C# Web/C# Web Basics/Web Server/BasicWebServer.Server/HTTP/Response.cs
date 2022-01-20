@@ -12,6 +12,7 @@ namespace BasicWebServer.Server.HTTP
         {
             this.StatusCode = statusCode;
             this.Headers = new HeaderCollection();
+            this.Cookies = new CookieCollection();
 
             this.Headers.Add(Header.Server, "My Web Server");
             this.Headers.Add(Header.Date, $"{DateTime.UtcNow:r}");
@@ -20,6 +21,8 @@ namespace BasicWebServer.Server.HTTP
         public StatusCode StatusCode { get; init; }
 
         public HeaderCollection Headers { get; set; }
+
+        public CookieCollection Cookies { get; set; }
 
         public string Body { get; set; }
 
@@ -34,6 +37,11 @@ namespace BasicWebServer.Server.HTTP
             foreach (var header in Headers)
             {
                 result.AppendLine(header.ToString());
+            }
+
+            foreach (var cookie in Cookies)
+            {
+                result.AppendLine($"{Header.SetCookie}: {cookie}");
             }
 
             result.AppendLine();
