@@ -1,5 +1,6 @@
 ﻿using BasicWebServer.Server.HTTP;
 using BasicWebServer.Server.Responses;
+using System.Runtime.CompilerServices;
 
 namespace BasicWebServer.Server.Controllers
 {
@@ -38,5 +39,11 @@ namespace BasicWebServer.Server.Controllers
         protected Response Redirect(string location) => new RedirectResponse(location);
 
         protected Response File(string fileName) => new TextFileResponse(fileName);
+
+        protected Response View([CallerMemberName] string viewName = "") => new ViewResponse(viewName, GetControllerName());
+
+        protected Response View(object model, [CallerMemberName] string viewName = "") => new ViewResponse(viewName, GetControllerName(), model);
+
+        private string GetControllerName() => GetType().Name.Replace(nameof(Controller), string.Empty);
     }
 }

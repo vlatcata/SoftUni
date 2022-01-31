@@ -1,4 +1,5 @@
-﻿using BasicWebServer.Server.HTTP;
+﻿using BasicWebServer.Demo.Models;
+using BasicWebServer.Server.HTTP;
 using System.Text;
 using System.Web;
 
@@ -6,18 +7,7 @@ namespace BasicWebServer.Server.Controllers
 {
     public class HomeController : Controller
     {
-        private const string HtmlForm = @"<form action='/HTML' method='POST'>
-   Name: <input type='text' name='Name'/>
-   Age: <input type='number' name ='Age'/>
-<input type='submit' value ='Save' />
-</form>";
-
-        private const string DownloadForm = @"<form action='/Content' method='POST'>
-   <input type='submit' value ='Download Sites Content' /> 
-</form>";
-
         private const string FileName = "content.txt";
-
 
         public HomeController(Request request) : base(request)
         {
@@ -27,22 +17,23 @@ namespace BasicWebServer.Server.Controllers
 
         public Response Redirect() => Redirect("https://softuni.org");
 
-        public Response Html() => Html(HtmlForm);
+        public Response Html() => View();
 
         public Response HtmlFormPost()
         {
-            string formData = string.Empty;
+            var name = Request.Form["Name"];
+            var age = Request.Form["Age"];
 
-            foreach (var (key, value) in Request.Form)
+            var model = new FormViewModel
             {
-                formData += $"{key} - {value}";
-                formData += Environment.NewLine;
-            }
+                Name = name,
+                Age = int.Parse(age)
+            };
 
-            return Text(formData);
+            return View(model);
         }
 
-        public Response Content() => Html(DownloadForm);
+        public Response Content() => View();
 
         public Response DownloadContent()
         {
