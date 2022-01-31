@@ -1,10 +1,5 @@
-﻿using System;
-using System.Text;
-using System.Web;
-using BasicWebServer.Server;
+﻿using BasicWebServer.Server;
 using BasicWebServer.Server.Controllers;
-using BasicWebServer.Server.HTTP;
-using BasicWebServer.Server.Responses;
 
 public class StartUp
 {
