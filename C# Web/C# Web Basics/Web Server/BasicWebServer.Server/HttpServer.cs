@@ -1,4 +1,5 @@
-﻿using BasicWebServer.Server.HTTP;
+﻿using BasicWebServer.Server.Common;
+using BasicWebServer.Server.HTTP;
 using BasicWebServer.Server.Routing;
 using System.Net;
 using System.Net.Sockets;
@@ -14,6 +15,8 @@ namespace BasicWebServer.Server
 
         private readonly RoutingTable routingTable;
 
+        public readonly IServiceCollection ServiceCollection;
+
         public HttpServer(string _ipAdress, int _port, Action<IRoutingTable> routingTableConfiguration)
         {
             this.ipAdress = IPAddress.Parse(_ipAdress);
@@ -22,6 +25,8 @@ namespace BasicWebServer.Server
             this.serverListener = new TcpListener(ipAdress, port);
 
             routingTableConfiguration(routingTable = new RoutingTable());
+
+            ServiceCollection = new ServiceCollection();
         }
 
         public HttpServer(int port, Action<IRoutingTable> routingTable) : this("127.0.0.1", port, routingTable)
@@ -51,7 +56,7 @@ namespace BasicWebServer.Server
 
                     var requestText = await ReadRequest(networkStream);
 
-                    var request = Request.Parse(requestText);
+                    var request = Request.Parse(requestText, ServiceCollection);
                     var response = routingTable.MatchRequest(request);
 
                     AddSession(request, response);
