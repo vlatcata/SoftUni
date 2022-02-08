@@ -11,7 +11,7 @@ namespace BasicWebServer.Server.Controllers
             Request = request;
         }
 
-        public Request Request { get; private init; }
+        public Request Request { get; set; }
 
         protected Response Text(string text) => new TextResponse(text);
 
