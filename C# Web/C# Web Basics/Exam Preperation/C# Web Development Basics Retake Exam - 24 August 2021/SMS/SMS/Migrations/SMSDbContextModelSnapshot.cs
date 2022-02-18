@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SMS.Data;
 
+#nullable disable
+
 namespace SMS.Migrations
 {
     [DbContext(typeof(SMSDbContext))]
@@ -14,15 +16,15 @@ namespace SMS.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.7")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "6.0.2")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("SMS.Data.Models.Cart", b =>
                 {
                     b.Property<string>("Id")
-                        .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -32,12 +34,10 @@ namespace SMS.Migrations
             modelBuilder.Entity("SMS.Data.Models.Product", b =>
                 {
                     b.Property<string>("Id")
-                        .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CartId")
-                        .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -45,7 +45,7 @@ namespace SMS.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("money");
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -57,18 +57,14 @@ namespace SMS.Migrations
             modelBuilder.Entity("SMS.Data.Models.User", b =>
                 {
                     b.Property<string>("Id")
-                        .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CartId")
-                        .IsRequired()
-                        .HasMaxLength(36)
-                        .HasColumnType("nvarchar(36)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -83,7 +79,8 @@ namespace SMS.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CartId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[CartId] IS NOT NULL");
 
                     b.ToTable("Users");
                 });
@@ -101,9 +98,7 @@ namespace SMS.Migrations
                 {
                     b.HasOne("SMS.Data.Models.Cart", "Cart")
                         .WithOne("User")
-                        .HasForeignKey("SMS.Data.Models.User", "CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SMS.Data.Models.User", "CartId");
 
                     b.Navigation("Cart");
                 });

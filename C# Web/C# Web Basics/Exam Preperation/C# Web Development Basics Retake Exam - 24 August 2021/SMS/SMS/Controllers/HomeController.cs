@@ -1,8 +1,6 @@
 ﻿using BasicWebServer.Server.Controllers;
 using BasicWebServer.Server.HTTP;
 using SMS.Contracts;
-using SMS.Models;
-using System.Collections.Generic;
 
 namespace SMS.Controllers
 {
@@ -10,8 +8,8 @@ namespace SMS.Controllers
     {
         private readonly IUserService userService;
         private readonly IProductService productService;
-        public HomeController(Request request, IUserService _userService, IProductService _productService) 
-            : base(request)
+
+        public HomeController(Request request, IUserService _userService, IProductService _productService) : base(request)
         {
             userService = _userService;
             productService = _productService;
@@ -33,7 +31,7 @@ namespace SMS.Controllers
                 return View(model, "/Home/IndexLoggedIn");
             }
 
-            return View(new { IsAuthenticated = false});
+            return this.View(new { IsAuthenticated = false });
         }
     }
 }

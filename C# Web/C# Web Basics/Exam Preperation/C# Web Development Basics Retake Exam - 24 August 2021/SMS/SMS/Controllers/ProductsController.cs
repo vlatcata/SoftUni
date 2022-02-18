@@ -2,14 +2,14 @@
 using BasicWebServer.Server.Controllers;
 using BasicWebServer.Server.HTTP;
 using SMS.Contracts;
-using SMS.Models;
+using SMS.Models.Product;
 
 namespace SMS.Controllers
 {
     public class ProductsController : Controller
     {
         private readonly IProductService productService;
-        
+
         public ProductsController(Request request, IProductService _productService) : base(request)
         {
             productService = _productService;
@@ -21,15 +21,15 @@ namespace SMS.Controllers
             return View(new { IsAuthenticated = true });
         }
 
-        [HttpPost]
         [Authorize]
-        public Response Create(CreateViewModel model)
+        [HttpPost]
+        public Response Create(CreateProductViewModel model)
         {
-            var(created, error) = productService.Create(model);
+            (bool isCreated, string error) = productService.CreateProduct(model);
 
-            if (!created)
+            if(!isCreated)
             {
-                return View(new { ErrorMessage = error }, "/Error");
+                return View(new { ErrorMessage = error}, "/Error");
             }
 
             return Redirect("/");

@@ -1,12 +1,6 @@
-﻿using BasicWebServer.Server.Attributes;
-using BasicWebServer.Server.Controllers;
+﻿using BasicWebServer.Server.Controllers;
 using BasicWebServer.Server.HTTP;
 using SMS.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SMS.Controllers
 {
@@ -18,26 +12,6 @@ namespace SMS.Controllers
         {
             cartService = _cartService;
         }
-        
-        [Authorize]
-        public Response AddProduct(string productId)
-        {
-            var products = cartService.AddProduct(productId, User.Id);
-
-            return View(new 
-            {
-                products = products,
-                IsAuthenticated = true
-            }, "/Carts/Details");
-        }
-
-        [Authorize]
-        public Response Buy()
-        {
-            cartService.BuyProducts(User.Id);
-
-            return Redirect("/");
-        }
 
         public Response Details()
         {
@@ -45,9 +19,27 @@ namespace SMS.Controllers
 
             return View(new 
             {
-                products = products,
+                Products = products,
                 IsAuthenticated = true
             });
+        }
+
+        public Response AddProduct(string productId)
+        {
+            var products = cartService.AddProduct(productId, User.Id);
+
+            return View(new
+            {
+                Products = products,
+                IsAuthenticated = true
+            }, "/Carts/Details");
+        }
+
+        public Response Buy()
+        {
+            cartService.BuyProducts(User.Id);
+
+            return Redirect("/");
         }
     }
 }

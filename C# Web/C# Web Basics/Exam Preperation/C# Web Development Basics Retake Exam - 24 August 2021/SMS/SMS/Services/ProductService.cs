@@ -1,13 +1,11 @@
 ﻿using Sms.Data.Common;
 using SMS.Contracts;
 using SMS.Data.Models;
-using SMS.Models;
+using SMS.Models.Product;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SMS.Services
 {
@@ -18,31 +16,31 @@ namespace SMS.Services
 
         public ProductService(IRepository _repo, IValidationService _validationService)
         {
-            repo = _repo;
             validationService = _validationService;
+            repo = _repo;
         }
 
-        public (bool created, string error) Create(CreateViewModel model)
+        public (bool isCreated, string error) CreateProduct(CreateProductViewModel model)
         {
-            bool created = false;
+            bool isCreated = false;
             string error = null;
 
-            var (isValid, validationError) = validationService.ValidateModel(model);
+            var (isValid, errorMsg) = validationService.ValidateModel(model);
 
             if (!isValid)
             {
-                return (isValid, validationError);
+                return (isValid, errorMsg);
             }
 
-            decimal price = 0;
+            decimal price;
 
             if (!decimal.TryParse(model.Price, NumberStyles.Float, CultureInfo.InvariantCulture, out price)
                 || price < 0.05M || price > 1000M)
             {
-                return (false, "Price must be between 0,05 and 1000");
+                return (false, "Price must be between 0.05 and 1000");
             }
 
-            var product = new Product()
+            Product product = new Product()
             {
                 Name = model.Name,
                 Price = price
@@ -52,14 +50,14 @@ namespace SMS.Services
             {
                 repo.Add(product);
                 repo.SaveChanges();
-                created = true;
+                isCreated = true;
             }
             catch (Exception)
             {
                 error = "Could not create product";
             }
 
-            return (created, error);
+            return (isCreated, error);
         }
 
         public IEnumerable<ProductListViewModel> GetProducts()

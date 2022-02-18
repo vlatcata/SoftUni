@@ -6,22 +6,23 @@ namespace SMS.Data.Models
 {
     public class Product
     {
+        public Product()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
+
         [Key]
-        [StringLength(36)]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Id { get; set; }
 
         [Required]
         [StringLength(20)]
         public string Name { get; set; }
 
         [Range(0.05, 1000)]
-        [Column(TypeName = "money")]
         public decimal Price { get; set; }
-
-        [StringLength(36)]
-        public string CartId { get; set; }
 
         [ForeignKey(nameof(CartId))]
         public Cart Cart { get; set; }
+        public string CartId { get; set; }
     }
 }

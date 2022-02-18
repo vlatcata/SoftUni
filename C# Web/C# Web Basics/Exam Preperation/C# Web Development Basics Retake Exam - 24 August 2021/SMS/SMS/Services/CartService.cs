@@ -2,12 +2,10 @@
 using Sms.Data.Common;
 using SMS.Contracts;
 using SMS.Data.Models;
-using SMS.Models;
+using SMS.Models.Cart;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SMS.Services
 {
@@ -20,16 +18,15 @@ namespace SMS.Services
             repo = _repo;
         }
 
-        public IEnumerable<CartViewModel> AddProduct(string productId, string userId)
+        public IEnumerable<CartDetailsViewModel> AddProduct(string productId, string userId)
         {
+            var product = repo.All<Product>()
+                .FirstOrDefault(p => p.Id == productId);
+
             var user = repo.All<User>()
                 .Where(u => u.Id == userId)
                 .Include(u => u.Cart)
-                .ThenInclude(c => c.Products)
-                .FirstOrDefault();
-
-            var product = repo.All<Product>()
-                .Where(p => p.Id == productId)
+                .ThenInclude(u => u.Products)
                 .FirstOrDefault();
 
             user.Cart.Products.Add(product);
@@ -41,11 +38,12 @@ namespace SMS.Services
             catch (Exception)
             { }
 
-            return user.Cart.Products.Select(p => new CartViewModel()
-            {
-                ProductName = p.Name,
-                ProductPrice = p.Price.ToString("F2")
-            });
+            return user.Cart.Products
+                .Select(p => new CartDetailsViewModel()
+                {
+                    ProductName = p.Name,
+                    ProductPrice = p.Price.ToString()
+                });
         }
 
         public void BuyProducts(string userId)
@@ -53,7 +51,7 @@ namespace SMS.Services
             var user = repo.All<User>()
                 .Where(u => u.Id == userId)
                 .Include(u => u.Cart)
-                .ThenInclude(c => c.Products)
+                .ThenInclude(u => u.Products)
                 .FirstOrDefault();
 
             user.Cart.Products.Clear();
@@ -61,19 +59,22 @@ namespace SMS.Services
             repo.SaveChanges();
         }
 
-        public IEnumerable<CartViewModel> GetProducts(string userId)
+        public IEnumerable<CartDetailsViewModel> GetProducts(string userId)
         {
             var user = repo.All<User>()
                 .Where(u => u.Id == userId)
                 .Include(u => u.Cart)
-                .ThenInclude(c => c.Products)
+                .ThenInclude(u => u.Products)
                 .FirstOrDefault();
 
-            return user.Cart.Products.Select(p => new CartViewModel()
-            {
-                ProductName = p.Name,
-                ProductPrice = p.Price.ToString("F2")
-            });
+            var products = user.Cart.Products
+                .Select(u => new CartDetailsViewModel()
+                {
+                    ProductName = u.Name,
+                    ProductPrice = u.Price.ToString("F2")
+                });
+
+            return products;
         }
     }
 }

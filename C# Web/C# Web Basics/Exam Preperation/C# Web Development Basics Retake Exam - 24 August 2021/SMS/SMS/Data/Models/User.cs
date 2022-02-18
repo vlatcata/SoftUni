@@ -6,27 +6,27 @@ namespace SMS.Data.Models
 {
     public class User
     {
+        public User()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
+
         [Key]
-        [StringLength(36)]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Id { get; set; }
 
         [Required]
         [StringLength(20)]
         public string Username { get; set; }
 
         [Required]
-        [StringLength(100)]
         public string Email { get; set; }
 
         [Required]
         [StringLength(64)]
         public string Password { get; set; }
 
-        [Required]
-        [StringLength(36)]
-        public string CartId { get; set; }
-
         [ForeignKey(nameof(CartId))]
         public Cart Cart { get; set; }
+        public string CartId { get; set; }
     }
 }

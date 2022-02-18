@@ -1,0 +1,16 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "f101d103-02b2-4528-9dc1-609dafc6702a": {
+      "ProjectGuid": "f101d103-02b2-4528-9dc1-609dafc6702a",
+      "DisplayName": "Git",
+      "ColorIndex": 0
+    },
+    "006d5f66-5e29-4160-b480-4cb14de26fd0": {
+      "ProjectGuid": "006d5f66-5e29-4160-b480-4cb14de26fd0",
+      "DisplayName": "BasicWebServer.Server",
+      "ColorIndex": 1
+    }
+  },
+  "NextColorIndex": 2
+}

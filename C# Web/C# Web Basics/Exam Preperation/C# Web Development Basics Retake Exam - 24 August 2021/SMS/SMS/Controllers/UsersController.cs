@@ -2,13 +2,7 @@
 using BasicWebServer.Server.Controllers;
 using BasicWebServer.Server.HTTP;
 using SMS.Contracts;
-using SMS.Models;
-using SMS.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SMS.Models.User;
 
 namespace SMS.Controllers
 {
@@ -30,11 +24,12 @@ namespace SMS.Controllers
         public Response Login(LoginViewModel model)
         {
             Request.Session.Clear();
+
             string userId = userService.Login(model);
 
             if (userId == null)
             {
-                return View(new { ErrorMessage = "Incorrect Login"}, "/Error");
+                return View(new { ErrorMessage = "Incorrect Login" }, "/Error");
             }
 
             SignIn(userId);
@@ -57,13 +52,12 @@ namespace SMS.Controllers
 
             if (isRegistered)
             {
-                return Redirect("/");
+                return Redirect("/Login");
             }
 
             return View(new { ErrorMessage = error}, "/Error");
         }
 
-        [Authorize]
         public Response Logout()
         {
             SignOut();

@@ -1,8 +1,7 @@
 ﻿using Sms.Data.Common;
 using SMS.Contracts;
 using SMS.Data.Models;
-using SMS.Models;
-using SMS.Services;
+using SMS.Models.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,27 +13,25 @@ namespace SMS.Services
 {
     public class UserService : IUserService
     {
+        private readonly IValidationService validationService;
         private readonly IRepository repo;
 
-        private readonly IValidationService validationService;
-
-        public UserService(IRepository _repo, IValidationService _validationService)
+        public UserService(IValidationService _validationService, IRepository _repo)
         {
-            repo = _repo;
             validationService = _validationService;
+            repo = _repo;
         }
 
         public string GetUsername(string userId)
         {
             return repo.All<User>()
-                .FirstOrDefault(x => x.Id == userId)?.Username;
+                .FirstOrDefault(u => u.Id == userId).Username;
         }
 
         public string Login(LoginViewModel model)
         {
             var user = repo.All<User>()
-                .Where(x => x.Username == model.Username && x.Password == CalculateHash(model.Password))
-                .FirstOrDefault();
+                .FirstOrDefault(u => u.Username == model.Username && u.Password == CalculateHash(model.Password));
 
             return user?.Id;
         }
@@ -44,21 +41,21 @@ namespace SMS.Services
             bool isRegistered = false;
             string error = null;
 
-            var (isValid, validationError) = validationService.ValidateModel(model);
+            var (isValid, errorMsg) = validationService.ValidateModel(model);
 
             if (!isValid)
             {
-                return (isValid, validationError);
+                return (false, errorMsg);
             }
 
             Cart cart = new Cart();
 
             User user = new User()
             {
+                Cart = cart,
                 Username = model.Username,
                 Email = model.Email,
                 Password = CalculateHash(model.Password),
-                Cart = cart
             };
 
             try
@@ -69,8 +66,9 @@ namespace SMS.Services
             }
             catch (Exception)
             {
-                error = "Could not register user";
+                error = "Unknown error";
             }
+
 
             return (isRegistered, error);
         }

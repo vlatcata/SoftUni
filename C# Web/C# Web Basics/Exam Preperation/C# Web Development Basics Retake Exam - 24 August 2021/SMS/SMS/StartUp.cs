@@ -4,7 +4,6 @@
     using BasicWebServer.Server.Routing;
     using Sms.Data.Common;
     using SMS.Contracts;
-    using SMS.Data;
     using SMS.Services;
     using System.Threading.Tasks;
 
@@ -16,11 +15,11 @@
                .MapControllers()
                .MapStaticFiles());
 
+
             server.ServiceCollection
-                .Add<IUserService, UserService>()
-                .Add<SMSDbContext>()
                 .Add<IRepository, Repository>()
                 .Add<IValidationService, ValidationService>()
+                .Add<IUserService, UserService>()
                 .Add<IProductService, ProductService>()
                 .Add<ICartService, CartService>();
 
