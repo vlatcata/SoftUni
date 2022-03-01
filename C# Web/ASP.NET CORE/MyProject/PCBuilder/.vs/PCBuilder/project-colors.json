@@ -1,0 +1,21 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "3a21011c-91f7-4c99-93b4-bb65a481c74c": {
+      "ProjectGuid": "3a21011c-91f7-4c99-93b4-bb65a481c74c",
+      "DisplayName": "PCBuilder",
+      "ColorIndex": 0
+    },
+    "c6646faf-9da0-4acf-9a3e-1573d3ebe7a2": {
+      "ProjectGuid": "c6646faf-9da0-4acf-9a3e-1573d3ebe7a2",
+      "DisplayName": "PCBuilder.Core",
+      "ColorIndex": 1
+    },
+    "1ae4322b-0caa-4932-9aad-f0e4c1c4a831": {
+      "ProjectGuid": "1ae4322b-0caa-4932-9aad-f0e4c1c4a831",
+      "DisplayName": "PCBuilder.Infrastructure",
+      "ColorIndex": 2
+    }
+  },
+  "NextColorIndex": 3
+}

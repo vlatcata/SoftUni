@@ -1,0 +1,21 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "156f1d32-b128-43b9-8cde-bf84cacfd6ee": {
+      "ProjectGuid": "156f1d32-b128-43b9-8cde-bf84cacfd6ee",
+      "DisplayName": "Warehouse",
+      "ColorIndex": 0
+    },
+    "ea48875a-5ae4-4f1c-ac54-ee27c7142810": {
+      "ProjectGuid": "ea48875a-5ae4-4f1c-ac54-ee27c7142810",
+      "DisplayName": "Warehouse.Core",
+      "ColorIndex": 1
+    },
+    "f325c52b-adef-417e-bce4-b0eca3d2ae5d": {
+      "ProjectGuid": "f325c52b-adef-417e-bce4-b0eca3d2ae5d",
+      "DisplayName": "Warehouse.Infrastructure",
+      "ColorIndex": 2
+    }
+  },
+  "NextColorIndex": 3
+}
