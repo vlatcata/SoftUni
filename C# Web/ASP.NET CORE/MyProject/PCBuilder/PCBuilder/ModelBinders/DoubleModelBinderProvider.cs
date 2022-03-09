@@ -18,6 +18,5 @@ namespace PCBuilder.ModelBinders
 
             return null;
         }
-    {
     }
 }
