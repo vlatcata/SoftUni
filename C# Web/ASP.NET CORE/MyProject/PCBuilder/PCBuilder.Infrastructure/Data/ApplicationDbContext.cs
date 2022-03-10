@@ -9,5 +9,12 @@ namespace PCBuilder.Infrastructure.Data
             : base(options)
         {
         }
+
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
