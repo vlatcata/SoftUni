@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PCBuilder.Core.Constants;
-using PCBuilder.Data;
+using PCBuilder.Infrastructure.Data;
 using PCBuilder.ModelBinders;
 
 var builder = WebApplication.CreateBuilder(args);
