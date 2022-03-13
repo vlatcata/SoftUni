@@ -22,6 +22,9 @@ builder.Services.AddControllersWithViews()
         options.ModelBinderProviders.Insert(2, new DateTimeModelBinderProvider(FormattingConstant.ClassicDateFormat));
     });
 
+// Add services here.
+builder.Services.AddApplicationServices();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
