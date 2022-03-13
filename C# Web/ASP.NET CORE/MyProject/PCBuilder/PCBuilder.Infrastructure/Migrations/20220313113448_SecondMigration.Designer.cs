@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PCBuilder.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using PCBuilder.Infrastructure.Data;
 namespace PCBuilder.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220313113448_SecondMigration")]
+    partial class SecondMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -263,9 +265,6 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("MadeOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Manufacturer")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -319,19 +318,17 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                     b.Property<Guid>("ComponentId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                    b.Property<DateTime>("MadeOn")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("Manufacturer")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ComponentId");
+                    b.HasIndex("ComponentId")
+                        .IsUnique();
 
                     b.ToTable("Specifications");
                 });
@@ -416,8 +413,8 @@ namespace PCBuilder.Infrastructure.Data.Migrations
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Specification", b =>
                 {
                     b.HasOne("PCBuilder.Infrastructure.Data.Component", "Component")
-                        .WithMany("Specifications")
-                        .HasForeignKey("ComponentId")
+                        .WithOne("Specifications")
+                        .HasForeignKey("PCBuilder.Infrastructure.Data.Specification", "ComponentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -438,7 +435,8 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                 {
                     b.Navigation("Orders");
 
-                    b.Navigation("Specifications");
+                    b.Navigation("Specifications")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

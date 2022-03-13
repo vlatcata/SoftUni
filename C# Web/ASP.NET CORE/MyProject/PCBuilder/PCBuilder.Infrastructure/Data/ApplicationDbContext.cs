@@ -10,6 +10,16 @@ namespace PCBuilder.Infrastructure.Data
         {
         }
 
+        public DbSet<Cart> Carts { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<Component> Components { get; set; }
+
+        public DbSet<Specification> Specifications { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -9,9 +10,21 @@ namespace PCBuilder.Infrastructure.Data
 {
     public class Specification
     {
-        public string Manufacturer { get; set; }
+        public Specification()
+        {
+            Id = Guid.NewGuid();
+        }
 
-        public DateTime MadeOn { get; set; }
+        [Key]
+        public Guid Id { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string Title { get; set; }
+
+        [Required]
+        [StringLength(150)]
+        public string Description { get; set; }
 
         [ForeignKey(nameof(ComponentId))]
         public Component Component { get; set; }

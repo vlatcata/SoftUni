@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PCBuilder.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using PCBuilder.Infrastructure.Data;
 namespace PCBuilder.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220313112922_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,118 +226,6 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("PCBuilder.Infrastructure.Data.Cart", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Carts");
-                });
-
-            modelBuilder.Entity("PCBuilder.Infrastructure.Data.Category", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("nvarchar(60)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("PCBuilder.Infrastructure.Data.Component", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CartId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("MadeOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Manufacturer")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Model")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .HasColumnType("nvarchar(60)");
-
-                    b.Property<int>("Name")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("money");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CartId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("Components");
-                });
-
-            modelBuilder.Entity("PCBuilder.Infrastructure.Data.Order", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ComponentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ComponentId");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("PCBuilder.Infrastructure.Data.Specification", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ComponentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ComponentId");
-
-                    b.ToTable("Specifications");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -385,60 +275,6 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("PCBuilder.Infrastructure.Data.Component", b =>
-                {
-                    b.HasOne("PCBuilder.Infrastructure.Data.Cart", null)
-                        .WithMany("Components")
-                        .HasForeignKey("CartId");
-
-                    b.HasOne("PCBuilder.Infrastructure.Data.Category", "Category")
-                        .WithMany("Components")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("PCBuilder.Infrastructure.Data.Order", b =>
-                {
-                    b.HasOne("PCBuilder.Infrastructure.Data.Component", "Component")
-                        .WithMany("Orders")
-                        .HasForeignKey("ComponentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Component");
-                });
-
-            modelBuilder.Entity("PCBuilder.Infrastructure.Data.Specification", b =>
-                {
-                    b.HasOne("PCBuilder.Infrastructure.Data.Component", "Component")
-                        .WithMany("Specifications")
-                        .HasForeignKey("ComponentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Component");
-                });
-
-            modelBuilder.Entity("PCBuilder.Infrastructure.Data.Cart", b =>
-                {
-                    b.Navigation("Components");
-                });
-
-            modelBuilder.Entity("PCBuilder.Infrastructure.Data.Category", b =>
-                {
-                    b.Navigation("Components");
-                });
-
-            modelBuilder.Entity("PCBuilder.Infrastructure.Data.Component", b =>
-                {
-                    b.Navigation("Orders");
-
-                    b.Navigation("Specifications");
                 });
 #pragma warning restore 612, 618
         }

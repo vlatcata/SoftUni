@@ -27,6 +27,10 @@ namespace PCBuilder.Infrastructure.Data
         public string Manufacturer { get; set; }
 
         [Required]
+        public DateTime MadeOn { get; set; }
+
+        [Required]
+        [Column(TypeName = "money")]
         public decimal Price { get; set; }
 
         [ForeignKey(nameof(CategoryId))]
@@ -34,7 +38,7 @@ namespace PCBuilder.Infrastructure.Data
         public Category Category { get; set; }
         public Guid CategoryId { get; set; }
 
-        public Specification Specifications { get; set; }
+        public List<Specification> Specifications { get; set; }
 
         public List<Order> Orders { get; set; }
     }
