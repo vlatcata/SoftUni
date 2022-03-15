@@ -16,3 +16,16 @@ html {
 body {
 /*  margin-bottom: 60px;*/
 }
+
+.span.badge.badge-success {
+    float: left
+}
+
+.cart-image{
+    width: 150px;
+}
+
+.cart-details-btn{
+    padding-top: 720px;
+    padding-left: 27px;
+}
