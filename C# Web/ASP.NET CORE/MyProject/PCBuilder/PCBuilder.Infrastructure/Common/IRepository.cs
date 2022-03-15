@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace PCBuilder.Infrastructure.Data.Common
+namespace PCBuilder.Infrastructure.Common
 {
     /// <summary>
     /// Abstraction of repository access methods

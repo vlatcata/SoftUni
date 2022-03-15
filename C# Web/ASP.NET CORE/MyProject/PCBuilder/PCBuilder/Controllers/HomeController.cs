@@ -16,7 +16,7 @@ namespace PCBuilder.Controllers
 
         public IActionResult Index()
         {
-            ViewData[MessageConstant.SuccessMessage] = "Test success message";
+            //ViewData[MessageConstant.SuccessMessage] = "Test success message";
 
             return View();
         }

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq.Expressions;
 
-namespace PCBuilder.Infrastructure.Data.Common
+namespace PCBuilder.Infrastructure.Common
 {
     /// <summary>
     /// Implementation of repository access methods
