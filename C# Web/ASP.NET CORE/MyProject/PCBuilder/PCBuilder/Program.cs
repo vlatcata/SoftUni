@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PCBuilder.Core.Constants;
 using PCBuilder.Infrastructure.Data;
+using PCBuilder.Infrastructure.Data.Identity;
 using PCBuilder.ModelBinders;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +13,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = true;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireDigit = false;
+    options.Password.RequireNonAlphanumeric = false;
+})
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews()
     .AddMvcOptions(options =>
@@ -21,6 +28,19 @@ builder.Services.AddControllersWithViews()
         options.ModelBinderProviders.Insert(1, new DoubleModelBinderProvider());
         options.ModelBinderProviders.Insert(2, new DateTimeModelBinderProvider(FormattingConstant.ClassicDateFormat));
     });
+
+builder.Services.AddAuthentication()
+    .AddFacebook(options =>
+    {
+        options.AppId = "";
+        options.AppSecret = "";
+    })
+    .AddGoogle(options =>
+    {
+        options.ClientId = "";
+        options.ClientSecret = "";
+    });
+
 
 // Add services here.
 builder.Services.AddApplicationServices();
