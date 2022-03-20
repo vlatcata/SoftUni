@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PCBuilder.Core.Constants;
 using PCBuilder.Infrastructure.Common;
 
 namespace PCBuilder.Controllers
@@ -17,6 +18,7 @@ namespace PCBuilder.Controllers
             return View();
         }
 
+        [Authorize(Roles = UserConstants.Roles.Administrator)]
         public IActionResult AddComponent()
         {
             return View();

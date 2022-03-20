@@ -24,5 +24,15 @@ namespace PCBuilder.Controllers
         {
             return View();
         }
+
+        public IActionResult Profile()
+        {
+            return View();
+        }
+
+        public IActionResult EditProfile()
+        {
+            return View();
+        }
     }
 }
