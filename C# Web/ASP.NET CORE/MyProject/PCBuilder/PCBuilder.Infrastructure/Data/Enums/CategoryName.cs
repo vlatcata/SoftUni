@@ -1,6 +1,6 @@
 ﻿namespace PCBuilder.Infrastructure.Data.Enums
 {
-    public enum ComponentNames
+    public enum CategoryName
     {
         CPU = 0,
         VideoCard = 1,

@@ -16,15 +16,12 @@ namespace PCBuilder.Infrastructure.Data
         public Guid Id { get; set; }
 
         [Required]
-        public ComponentNames Name { get; set; }
+        [StringLength(100)]
+        public string Manufacturer { get; set; }
 
         [Required]
         [StringLength(60)]
         public string Model { get; set; }
-
-        [Required]
-        [StringLength(100)]
-        public string Manufacturer { get; set; }
 
         [Required]
         public DateTime MadeOn { get; set; }
