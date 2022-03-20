@@ -20,6 +20,11 @@ namespace PCBuilder.Core.Services
             repo = _repo;
         }
 
+        public async Task<ApplicationUser> GetUserById(string id)
+        {
+            return await repo.GetByIdAsync<ApplicationUser>(id);
+        }
+
         public async Task<IEnumerable<UserListViewModel>> GetUsers()
         {
             return await repo.All<ApplicationUser>()

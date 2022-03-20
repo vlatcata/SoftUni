@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using PCBuilder.Core.Constants;
 using PCBuilder.Core.Contracts;
 using PCBuilder.Core.Models;
@@ -35,7 +36,25 @@ namespace PCBuilder.Areas.Admin.Controllers
 
         public async Task<IActionResult> Roles(string id)
         {
-            return Ok();
+            var user = await userService.GetUserById(id);
+
+            var model = new UserRolesViewModel()
+            {
+                UserId = user.Id,
+                Name = $"{user.FirstName} {user.LastName}"
+            };
+
+
+            ViewBag.RoleItems = roleManager.Roles
+                .ToList()
+                .Select(r => new SelectListItem()
+                {
+                    Text = r.Name,
+                    Value = r.Id,
+                    Selected = userManager.IsInRoleAsync(user, r.Name).Result
+                }).ToList();
+
+            return View(model);
         }
 
         public async Task<IActionResult> Edit(string id)
@@ -46,9 +65,9 @@ namespace PCBuilder.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(string id, UserEditViewModel model)
+        public async Task<IActionResult> Edit(UserEditViewModel model)
         {
-            if (!ModelState.IsValid || id != model.Id)
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -69,7 +88,7 @@ namespace PCBuilder.Areas.Admin.Controllers
         {
             //await roleManager.CreateAsync(new IdentityRole()
             //{
-            //    Name = "Administrator"
+            //    Name = "Guest"
             //});
 
             return Ok();
