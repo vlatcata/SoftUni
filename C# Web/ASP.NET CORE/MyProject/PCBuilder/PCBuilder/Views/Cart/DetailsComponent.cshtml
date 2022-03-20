@@ -1,97 +1,61 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | General Form Elements</title>
+﻿
+<div class="row">
+    <!-- left column -->
+    <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Component Details</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Category</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="CPU">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Model</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="I7-9700k">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Manufacturer</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Intel">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Made On</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="25.03.2021">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Price</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="756.00 BGN">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Specifications</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1">
 
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
-</head>
-<body class="hold-transition sidebar-mini">
-    <div class="wrapper">
+                        @*@{
+                            foreach (specification in Model.Specifications)
+                            {
+                            <script> <br />
+                            <label for="inputSpecifications">Name</label>
+                            spacification.Name
+                            <input type="text" id="inputSpecifications" class="form-control">
+                            <label for="inputSpecifications">Description</label>
+                            spacification.Description
+                            <input type="text" id="inputSpecifications" class="form-control"><script/>
+                            }
+                            }*@
 
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
-
-            <!-- Main content -->
-            <section class="content">
-                <div class="container-fluid">
-                    <div class="row">
-                        <!-- left column -->
-                        <div class="col-md-6">
-                            <!-- general form elements -->
-                            <div class="card card-primary">
-                                <div class="card-header">
-                                    <h3 class="card-title">Component Details</h3>
-                                </div>
-                                <!-- /.card-header -->
-                                <!-- form start -->
-                                <form>
-                                    <div class="card-body">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Category</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="CPU">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputPassword1">Model</label>
-                                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="I7-9700k">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputPassword1">Manufacturer</label>
-                                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Intel">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputPassword1">Made On</label>
-                                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="25.03.2021">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputPassword1">Price</label>
-                                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="756.00 BGN">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputPassword1">Specifications</label>
-                                            <input type="password" class="form-control" id="exampleInputPassword1">
-
-                                            @*@{
-                                                foreach (specification in Model.Specifications)
-                                                {
-                                                    <script> <br />
-                                                    <label for="inputSpecifications">Name</label>
-                                                    spacification.Name
-                                                    <input type="text" id="inputSpecifications" class="form-control">
-                                                    <label for="inputSpecifications">Description</label>
-                                                    spacification.Description
-                                                    <input type="text" id="inputSpecifications" class="form-control"><script/>
-                                                }
-                                                }*@
-
-                                        </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <button href="/Cart/Cart" type="submit" class="btn btn-primary">Close</button>
-                                    </div>
-                                </form>
-                            </div>
-                            <!-- /.card -->
-                        </div>
                     </div>
                 </div>
-        </section>
-        <!-- /.content -->
+                <div class="card-footer">
+                    <button href="/Cart/Cart" type="submit" class="btn btn-primary">Close</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.card -->
     </div>
-    <!-- /.content-wrapper -->
-    </div>
-    <!-- ./wrapper -->
-    <!-- jQuery -->
-    <script src="../../plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="../../dist/js/adminlte.min.js"></script>
-</body>
-</html>
+</div>
+
