@@ -32,13 +32,13 @@ builder.Services.AddControllersWithViews()
 builder.Services.AddAuthentication()
     .AddFacebook(options =>
     {
-        options.AppId = "";
-        options.AppSecret = "";
+        options.AppId = builder.Configuration.GetValue<string>("Facebook:AppId");
+        options.AppSecret = builder.Configuration.GetValue<string>("Facebook:AppSecret");
     })
     .AddGoogle(options =>
     {
-        options.ClientId = "";
-        options.ClientSecret = "";
+        options.ClientId = builder.Configuration.GetValue<string>("Google:ClientId");
+        options.ClientSecret = builder.Configuration.GetValue<string>("Google:ClientSecret");
     });
 
 
