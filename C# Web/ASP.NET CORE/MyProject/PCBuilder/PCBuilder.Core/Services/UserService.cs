@@ -31,5 +31,35 @@ namespace PCBuilder.Core.Services
                 })
                 .ToListAsync();
         }
+
+        public async Task<UserEditViewModel> GetUserToEdit(string userId)
+        {
+            var user = await repo.GetByIdAsync<ApplicationUser>(userId);
+
+            return new UserEditViewModel()
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+            };
+        }
+
+        public async Task<bool> UpdateUser(UserEditViewModel model)
+        {
+            bool result = false;
+
+            var user = await repo.GetByIdAsync<ApplicationUser>(model.Id);
+
+            if (user != null)
+            {
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+
+                await repo.SaveChangesAsync();
+                result = true;
+            }
+
+            return result;
+        }
     }
 }

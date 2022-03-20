@@ -24,23 +24,5 @@ namespace PCBuilder.Controllers
         {
             return View();
         }
-
-        [Authorize(Roles = UserConstants.Roles.Administrator)]
-        public async Task<IActionResult> ManageRoles()
-        {
-            var users = await userService.GetUsers();
-
-            return Ok(users);
-        }
-
-        public async Task<IActionResult> CreateRole()
-        {
-            //await roleManager.CreateAsync(new IdentityRole()
-            //{
-            //    Name = "Administrator"
-            //});
-
-            return Ok();
-        }
     }
 }

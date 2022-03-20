@@ -29,3 +29,10 @@ body {
     padding-top: 655px;
     padding-left: 27px;
 }
+
+.btn-edit-cancel{
+    margin-left: 410px;
+    margin-top: -60px;
+    padding-left: 40px;
+    padding-right: 40px
+}

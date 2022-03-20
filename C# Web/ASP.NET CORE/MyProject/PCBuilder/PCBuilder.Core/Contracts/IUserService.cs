@@ -10,5 +10,9 @@ namespace PCBuilder.Core.Contracts
     public interface IUserService
     {
         Task<IEnumerable<UserListViewModel>> GetUsers();
+
+        Task<UserEditViewModel> GetUserToEdit(string userId);
+
+        Task<bool> UpdateUser(UserEditViewModel model);
     }
 }
