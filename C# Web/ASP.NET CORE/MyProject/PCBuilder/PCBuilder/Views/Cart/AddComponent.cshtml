@@ -1,58 +1,71 @@
-﻿<div class="row">
-    <div class="col-md-6">
-        <div class="card card-primary">
-            <div class="card-header">
-                <h3 class="card-title">Add Component</h3>
+﻿@using PCBuilder.Core.Models.Cart
+@model AddComponentViewModel
 
-                <div class="card-tools">
+<form method="post">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Add Component</h3>
+
+                    <div class="card-tools">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="inputStatus">Category</label>
+                        <select asp-for="Category" id="inputStatus" class="form-control custom-select">
+                            <option selected disabled>Select one</option>
+                            <option>CPU</option>
+                            <option>GPU</option>
+                            <option>SSD</option>
+                            <option>Motherboard</option>
+                            <option>RAM</option>
+                            <option>Power Supply</option>
+                            <option>Hard Disk</option>
+                            <option>Case</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Model">Model</label>
+                        <input asp-for="Model" type="text" name="Model" class="form-control" value="@Model.Model">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Manufacturer">Manufacturer</label>
+                        <input asp-for="Manufacturer" type="text" name="Manufacturer" class="form-control" value="@Model.Manufacturer">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ImageUrl">Image Url</label>
+                        <input asp-for="ImageUrl" type="text" name="ImageUrl" class="form-control" value="@Model.ImageUrl">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Price">Price</label>
+                        <input asp-for="Price" type="text" name="Price" class="form-control" value="@Model.Price">
+                    </div>
+                    <span class="form-group" id="specifications">
+                        <label asp-for="Specifications">Specifications: </label>
+
+                        @foreach (var specification in Model.Specifications)
+                        {
+                            <br />
+                            <label>Name</label>
+                            <input type="text" name="Name" class="form-control" value="@specification.Name">
+                            <label>Description</label>
+                            <input type="text" name="Description" class="form-control" value="@specification.Description">
+                        }
+                    </span>
                 </div>
             </div>
-            <div class="card-body">
-                <div class="form-group">
-                    <label for="inputStatus">Category</label>
-                    <select id="inputStatus" class="form-control custom-select">
-                        <option selected disabled>Select one</option>
-                        <option>CPU</option>
-                        <option>GPU</option>
-                        <option>Motherboard</option>
-                        <option>Other</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="inputName">Model</label>
-                    <input type="text" id="inputName" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="inputDescription">Manufacturer</label>
-                    <textarea id="inputDescription" class="form-control" rows="4"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="inputClientCompany">Made on</label>
-                    <input type="text" id="inputClientCompany" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="inputProjectLeader">Price</label>
-                    <input type="text" id="inputProjectLeader" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="inputSpecifications">Specifications:</label>
-
-                    <br />
-                    <label for="inputSpecifications">Name</label>
-                    <input type="text" id="inputSpecifications" class="form-control">
-                    <label for="inputSpecifications">Description</label>
-                    <input type="text" id="inputSpecifications" class="form-control">
-                </div>
-            </div>
-            <!-- /.card-body -->
         </div>
-        <!-- /.card -->
     </div>
-</div>
-<div class="row aditional-buttons">
-    <div class="col-12">
-        <a href="#" class="btn btn-secondary">Cancel</a>
-        <input type="submit" value="Create new component" class="btn btn-success create-component-btn">
-        <input type="submit" value="Add another specification" class="btn btn-success create-specification">
+    <div class="row aditional-buttons">
+        <div class="col-12">
+            <a asp-controller="Cart" asp-action="Cart" class="btn btn-secondary">Cancel</a>
+            <button asp-controller="Cart" asp-action="AddComponent" method="post" type="submit" class="btn btn-success create-component-btn">Submit</button>
+            <button type="submit" class="btn btn-success" id="create-specification">Add another specification</button>
+        </div>
     </div>
-</div>
+</form>
+
+<script src="~/js~/js/site.js"></script>

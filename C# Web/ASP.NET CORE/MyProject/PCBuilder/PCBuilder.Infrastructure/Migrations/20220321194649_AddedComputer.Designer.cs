@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PCBuilder.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using PCBuilder.Infrastructure.Data;
 namespace PCBuilder.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220321194649_AddedComputer")]
+    partial class AddedComputer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,7 +169,7 @@ namespace PCBuilder.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Carts", (string)null);
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Category", b =>
@@ -181,7 +183,7 @@ namespace PCBuilder.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Component", b =>
@@ -224,7 +226,7 @@ namespace PCBuilder.Infrastructure.Data.Migrations
 
                     b.HasIndex("ComputerId");
 
-                    b.ToTable("Components", (string)null);
+                    b.ToTable("Components");
                 });
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Computer", b =>
@@ -233,14 +235,9 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
-
-                    b.ToTable("Computers", (string)null);
+                    b.ToTable("Computer");
                 });
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Identity.ApplicationUser", b =>
@@ -316,6 +313,30 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("PCBuilder.Infrastructure.Data.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ComponentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ComputerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ComponentId");
+
+                    b.HasIndex("ComputerId");
+
+                    b.ToTable("Orders");
+                });
+
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Specification", b =>
                 {
                     b.Property<Guid>("Id")
@@ -339,7 +360,7 @@ namespace PCBuilder.Infrastructure.Data.Migrations
 
                     b.HasIndex("ComponentId");
 
-                    b.ToTable("Specifications", (string)null);
+                    b.ToTable("Specifications");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -412,11 +433,19 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("PCBuilder.Infrastructure.Data.Computer", b =>
+            modelBuilder.Entity("PCBuilder.Infrastructure.Data.Order", b =>
                 {
-                    b.HasOne("PCBuilder.Infrastructure.Data.Identity.ApplicationUser", null)
-                        .WithMany("Computers")
-                        .HasForeignKey("ApplicationUserId");
+                    b.HasOne("PCBuilder.Infrastructure.Data.Component", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("ComponentId");
+
+                    b.HasOne("PCBuilder.Infrastructure.Data.Computer", "Computer")
+                        .WithMany()
+                        .HasForeignKey("ComputerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Computer");
                 });
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Specification", b =>
@@ -442,17 +471,14 @@ namespace PCBuilder.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Component", b =>
                 {
+                    b.Navigation("Orders");
+
                     b.Navigation("Specifications");
                 });
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Computer", b =>
                 {
                     b.Navigation("Components");
-                });
-
-            modelBuilder.Entity("PCBuilder.Infrastructure.Data.Identity.ApplicationUser", b =>
-                {
-                    b.Navigation("Computers");
                 });
 #pragma warning restore 612, 618
         }

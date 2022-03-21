@@ -1,5 +1,4 @@
-﻿using PCBuilder.Infrastructure.Data.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PCBuilder.Infrastructure.Data
@@ -9,7 +8,7 @@ namespace PCBuilder.Infrastructure.Data
         public Component()
         {
             Id = Guid.NewGuid();
-            Orders = new List<Order>();
+            Specifications = new List<Specification>();
         }
 
         [Key]
@@ -24,7 +23,7 @@ namespace PCBuilder.Infrastructure.Data
         public string Model { get; set; }
 
         [Required]
-        public DateTime MadeOn { get; set; }
+        public string ImageUrl { get; set; }
 
         [Required]
         [Column(TypeName = "money")]
@@ -36,7 +35,5 @@ namespace PCBuilder.Infrastructure.Data
         public Guid CategoryId { get; set; }
 
         public List<Specification> Specifications { get; set; }
-
-        public List<Order> Orders { get; set; }
     }
 }

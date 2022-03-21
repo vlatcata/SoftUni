@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace PCBuilder.Infrastructure.Data
 {
-    public class Cart
+    public class Computer
     {
-        public Cart()
+        public Computer()
         {
             Id = Guid.NewGuid();
             Components = new List<Component>();
@@ -18,8 +18,7 @@ namespace PCBuilder.Infrastructure.Data
         [Key]
         public Guid Id { get; set; }
 
-        public decimal TotalPrice => Components.Sum(c => c.Price);
-
+        [Required]
         public List<Component> Components { get; set; }
     }
 }
