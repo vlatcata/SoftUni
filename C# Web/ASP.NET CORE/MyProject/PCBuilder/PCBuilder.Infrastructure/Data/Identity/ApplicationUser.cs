@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,5 +23,9 @@ namespace PCBuilder.Infrastructure.Data.Identity
         public string? LastName { get; set; }
 
         public List<Computer> Computers { get; set; }
+
+        //[ForeignKey(nameof(CartId))]
+        //public Cart Cart { get; set; }
+        //public Guid CartId { get; set; }
     }
 }

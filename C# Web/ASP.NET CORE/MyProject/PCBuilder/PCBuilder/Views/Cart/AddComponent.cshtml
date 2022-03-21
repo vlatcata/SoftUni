@@ -46,13 +46,13 @@
                     <span class="form-group" id="specifications">
                         <label asp-for="Specifications">Specifications: </label>
 
-                        @foreach (var specification in Model.Specifications)
+                        @foreach (var specification in @Model.Specifications)
                         {
                             <br />
-                            <label>Name</label>
-                            <input type="text" name="Name" class="form-control" value="@specification.Name">
-                            <label>Description</label>
-                            <input type="text" name="Description" class="form-control" value="@specification.Description">
+                            <label asp-for="@specification.Name" >Name</label>
+                            <input asp-for="@specification.Name" type="text" name="Name" class="form-control" value="@specification.Name">
+                            <label asp-for="@specification.Description" >Description</label>
+                            <input asp-for="@specification.Description" type="text" name="Description" class="form-control" value="@specification.Description">
                         }
                     </span>
                 </div>

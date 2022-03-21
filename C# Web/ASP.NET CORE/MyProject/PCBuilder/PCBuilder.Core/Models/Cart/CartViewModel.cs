@@ -10,6 +10,6 @@ namespace PCBuilder.Core.Models.Cart
     {
         public decimal TotalPrice => Components.Sum(c => c.Price);
 
-        public List<AddComponentViewModel>? Components { get; set; }
+        public List<AddComponentViewModel>? Components { get; set; } = new List<AddComponentViewModel>();
     }
 }

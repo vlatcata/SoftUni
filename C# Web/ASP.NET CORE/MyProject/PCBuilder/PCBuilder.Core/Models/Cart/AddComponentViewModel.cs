@@ -19,6 +19,6 @@ namespace PCBuilder.Core.Models.Cart
 
         public decimal Price { get; set; }
 
-        public List<SpecificationsViewModel>? Specifications { get; set; }
+        public List<SpecificationsViewModel>? Specifications { get; set; } = new List<SpecificationsViewModel>();
     }
 }
