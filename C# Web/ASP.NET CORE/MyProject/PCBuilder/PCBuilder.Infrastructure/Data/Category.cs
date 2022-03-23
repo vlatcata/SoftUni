@@ -14,7 +14,7 @@ namespace PCBuilder.Infrastructure.Data
         [Key]
         public Guid Id { get; set; }
 
-        public CategoryName Name { get; set; }
+        public string? Name { get; set; }
 
         public List<Component> Components { get; set; }
     }

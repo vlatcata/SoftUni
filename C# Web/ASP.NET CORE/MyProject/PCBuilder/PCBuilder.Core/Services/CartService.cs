@@ -39,10 +39,11 @@ namespace PCBuilder.Core.Services
                 CategoryId = category.Id
             };
 
-            var specifications = model.Specifications.Select(s => new Specification()
+            //Specifications are always null ??
+            var specifications = model.Specifications?.Select(s => new Specification()
             {
                 Component = component,
-                Title = s.Name,
+                Title = s.Title,
                 Description = s.Description
             })
                 .ToList();
@@ -70,18 +71,18 @@ namespace PCBuilder.Core.Services
 
             specifications.Add(new SpecificationsViewModel()
             {
-                Name = "threads",
+                Title = "threads",
                 Description = "14"
             });
             specifications.Add(new SpecificationsViewModel()
             {
-                Name = "speed",
+                Title = "speed",
                 Description = "4.5Ghz"
             });
 
             var component = new AddComponentViewModel()
             {
-                Category = CategoryName.CPU,
+                Category = "CPU",
                 ImageUrl = "https://s13emagst.akamaized.net/products/23377/23376646/images/res_f05cd8bec1059f12f285f0110a76088f.jpg",
                 Manufacturer = "Intel",
                 Model = "Core I7",

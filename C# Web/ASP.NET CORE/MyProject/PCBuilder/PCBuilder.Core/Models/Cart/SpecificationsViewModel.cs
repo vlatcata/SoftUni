@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PCBuilder.Core.Models.Cart
+﻿namespace PCBuilder.Core.Models.Cart
 {
     public class SpecificationsViewModel
     {
-        public string? Name { get; set; }
+        public string? Title { get; set; }
 
         public string? Description { get; set; }
     }

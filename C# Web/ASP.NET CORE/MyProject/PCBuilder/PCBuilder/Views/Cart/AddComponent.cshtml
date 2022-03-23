@@ -24,7 +24,6 @@
                             <option>Power Supply</option>
                             <option>Hard Disk</option>
                             <option>Case</option>
-                            <option>Other</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -49,8 +48,8 @@
                         @foreach (var specification in @Model.Specifications)
                         {
                             <br />
-                            <label asp-for="@specification.Name" >Name</label>
-                            <input asp-for="@specification.Name" type="text" name="Name" class="form-control" value="@specification.Name">
+                            <label asp-for="@specification.Title" >Name</label>
+                            <input asp-for="@specification.Title" type="text" name="Title" class="form-control" value="@specification.Title">
                             <label asp-for="@specification.Description" >Description</label>
                             <input asp-for="@specification.Description" type="text" name="Description" class="form-control" value="@specification.Description">
                         }
