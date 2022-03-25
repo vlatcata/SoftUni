@@ -40,3 +40,8 @@ body {
 .aditional-buttons{
     margin-bottom: 20px
 }
+
+.img-cpu{
+    max-width: 120px;
+    max-height: 120px
+}

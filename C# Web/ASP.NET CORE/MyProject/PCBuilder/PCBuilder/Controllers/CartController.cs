@@ -23,6 +23,8 @@ namespace PCBuilder.Controllers
 
         public IActionResult Cart()
         {
+            //var model = cartService.GetAllComponents();
+
             return View();
         }
 

@@ -25,6 +25,10 @@ namespace PCBuilder.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            //modelBuilder.Entity<Component>()
+            //    .HasIndex(c => c.CategoryId)
+            //    .IsUnique();
         }
     }
 }

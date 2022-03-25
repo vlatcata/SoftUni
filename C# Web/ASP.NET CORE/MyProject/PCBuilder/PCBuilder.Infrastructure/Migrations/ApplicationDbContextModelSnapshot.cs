@@ -165,6 +165,9 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("Money");
+
                     b.HasKey("Id");
 
                     b.ToTable("Carts");
@@ -251,6 +254,9 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -304,6 +310,8 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CartId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -417,6 +425,17 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                     b.HasOne("PCBuilder.Infrastructure.Data.Identity.ApplicationUser", null)
                         .WithMany("Computers")
                         .HasForeignKey("ApplicationUserId");
+                });
+
+            modelBuilder.Entity("PCBuilder.Infrastructure.Data.Identity.ApplicationUser", b =>
+                {
+                    b.HasOne("PCBuilder.Infrastructure.Data.Cart", "Cart")
+                        .WithMany()
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
                 });
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Specification", b =>

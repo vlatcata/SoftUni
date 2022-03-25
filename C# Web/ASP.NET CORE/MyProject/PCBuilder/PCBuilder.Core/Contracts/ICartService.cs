@@ -1,9 +1,4 @@
 ﻿using PCBuilder.Core.Models.Cart;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCBuilder.Core.Contracts
 {
@@ -11,5 +6,6 @@ namespace PCBuilder.Core.Contracts
     {
         Task<bool> CreateComponent(AddComponentViewModel model);
         Task<AddComponentViewModel> GenerateDefaultModel();
+        List<AddComponentViewModel> GetAllComponents(string name);
     }
 }

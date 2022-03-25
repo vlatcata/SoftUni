@@ -1,4 +1,5 @@
-﻿using PcBuilder.Infrastructure.Data.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using PcBuilder.Infrastructure.Data.Repositories;
 using PCBuilder.Core.Contracts;
 using PCBuilder.Core.Models.Cart;
 using PCBuilder.Infrastructure.Data;
@@ -36,19 +37,14 @@ namespace PCBuilder.Core.Services
                 Manufacturer = model.Manufacturer,
                 Model = model.Model,
                 Category = category,
-                CategoryId = category.Id
-            };
-
-            //Specifications are always null ??
-            var specifications = model.Specifications?.Select(s => new Specification()
-            {
-                Component = component,
-                Title = s.Title,
-                Description = s.Description
-            })
-                .ToList();
-
-            component.Specifications = specifications;
+                CategoryId = category.Id,
+                Specifications = model.Specifications.Select(s => new Specification()
+                {
+                    Id = s.Id,
+                    Title = s.Title,
+                    Description = s.Description
+                })
+                .ToList()};
 
             try
             {
@@ -71,13 +67,21 @@ namespace PCBuilder.Core.Services
 
             specifications.Add(new SpecificationsViewModel()
             {
+                Id = Guid.NewGuid(),
                 Title = "threads",
                 Description = "14"
             });
             specifications.Add(new SpecificationsViewModel()
             {
+                Id = Guid.NewGuid(),
                 Title = "speed",
                 Description = "4.5Ghz"
+            });
+            specifications.Add(new SpecificationsViewModel()
+            {
+                Id = Guid.NewGuid(),
+                Title = "speasdasdaded",
+                Description = "4.5Gsssshz"
             });
 
             var component = new AddComponentViewModel()
@@ -91,6 +95,31 @@ namespace PCBuilder.Core.Services
             };
 
             return component;
+        }
+
+        public List<AddComponentViewModel> GetAllComponents(string name)
+        {
+            var components = repo.All<Component>()
+                .Where(c => c.Category.Name == name)
+                .Select(c => new AddComponentViewModel()
+                {
+                    Id = c.Id,
+                    Category = c.Category.Name,
+                    ImageUrl = c.ImageUrl,
+                    Manufacturer = c.Manufacturer,
+                    Model = c.Model,
+                    Price = c.Price,
+                    Specifications = c.Specifications.Select(s => new SpecificationsViewModel()
+                    {
+                        Description = s.Description,
+                        Id = s.Id,
+                        Title = s.Title
+                    })
+                    .ToList()
+                })
+                .ToList();
+
+            return components;
         }
     }
 }

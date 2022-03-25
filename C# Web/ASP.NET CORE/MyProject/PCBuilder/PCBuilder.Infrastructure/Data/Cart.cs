@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using PCBuilder.Infrastructure.Data.Identity;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PCBuilder.Infrastructure.Data
 {
@@ -13,12 +10,14 @@ namespace PCBuilder.Infrastructure.Data
         {
             Id = Guid.NewGuid();
             Components = new List<Component>();
+            TotalPrice = Components.Sum(c => c.Price);
         }
 
         [Key]
         public Guid Id { get; set; }
 
-        public decimal TotalPrice => Components.Sum(c => c.Price);
+        [Column(TypeName = "Money")]
+        public decimal TotalPrice { get; set; }
 
         public List<Component> Components { get; set; }
     }
