@@ -23,53 +23,88 @@ namespace PCBuilder.Controllers
             return View();
         }
 
-        public IActionResult Cpus()
+        public async Task<IActionResult> Cpus()
         {
-            var components = cartService.GetAllComponents("CPU");
+            var components = await cartService.GetAllComponents("CPU");
 
-            return View("AllComponents", components);
+            if (components != null && components.Count > 0)
+            {
+                return View("AllComponents", components);
+            }
+
+            return View("ErrorCustom");
         }
 
-        public IActionResult Gpus()
+        public async Task<IActionResult> Gpus()
         {
-            var components = cartService.GetAllComponents("GPU");
+            var components = await cartService.GetAllComponents("GPU");
 
-            return View("AllComponents", components);
+            if (components != null && components.Count > 0)
+            {
+                return View("AllComponents", components);
+            }
+
+            return View("ErrorCustom");
         }
 
-        public IActionResult Ram()
+        public async Task<IActionResult> Ram()
         {
-            var components = cartService.GetAllComponents("RAM");
+            var components = await cartService.GetAllComponents("RAM");
 
-            return View("AllComponents", components);
+            if (components != null && components.Count > 0)
+            {
+                return View("AllComponents", components);
+            }
+
+            return View("ErrorCustom");
         }
 
-        public IActionResult Motherboards()
+        public async Task<IActionResult> Motherboards()
         {
-            var components = cartService.GetAllComponents("Motherboard");
+            var components = await cartService.GetAllComponents("Motherboard");
 
-            return View("AllComponents", components);
+            if (components != null && components.Count > 0)
+            {
+                return View("AllComponents", components);
+            }
+
+            return View("ErrorCustom");
         }
 
-        public IActionResult Cases()
+        public async Task<IActionResult> Cases()
         {
-            var components = cartService.GetAllComponents("Case");
+            var components = await cartService.GetAllComponents("Case");
 
-            return View("AllComponents", components);
+            if (components != null && components.Count > 0)
+            {
+                return View("AllComponents", components);
+            }
+
+            return View("ErrorCustom");
         }
 
-        public IActionResult PowerSupplies()
+        public async Task<IActionResult> PowerSupplies()
         {
-            var components = cartService.GetAllComponents("Powersupply");
+            var components = await cartService.GetAllComponents("Power Supply");
 
-            return View("AllComponents", components);
+            if (components != null && components.Count > 0)
+            {
+                return View("AllComponents", components);
+            }
+
+            return View("ErrorCustom");
         }
 
-        public IActionResult Storage()
+        public async Task<IActionResult> Ssds()
         {
-            var components = cartService.GetAllComponents("SSD");
+            var components = await cartService.GetAllComponents("SSD");
 
-            return View("AllComponents", components);
+            if (components != null && components.Count > 0)
+            {
+                return View("AllComponents", components);
+            }
+
+            return View("ErrorCustom");
         }
 
         public IActionResult Privacy()
@@ -81,6 +116,11 @@ namespace PCBuilder.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult ErrorCustom()
+        {
+            return View();
         }
     }
 }

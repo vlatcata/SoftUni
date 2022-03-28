@@ -6,6 +6,9 @@ namespace PCBuilder.Core.Contracts
     {
         Task<bool> CreateComponent(AddComponentViewModel model);
         Task<AddComponentViewModel> GenerateDefaultModel();
-        List<AddComponentViewModel> GetAllComponents(string name);
+        Task<List<AddComponentViewModel>> GetAllComponents(string name);
+        Task<AddComponentViewModel> GetComponent(string id);
+        Task<bool> EditComponent(AddComponentViewModel model);
+        Task<bool> RemoveComponent(Guid id);
     }
 }

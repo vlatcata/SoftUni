@@ -44,7 +44,8 @@ namespace PCBuilder.Core.Services
                     Title = s.Title,
                     Description = s.Description
                 })
-                .ToList()};
+                .ToList()
+            };
 
             try
             {
@@ -59,6 +60,32 @@ namespace PCBuilder.Core.Services
             }
 
             return result;
+        }
+
+        public async Task<AddComponentViewModel> GetComponent(string id)
+        {
+            var component = await repo.All<Component>()
+                .Where(c => c.Id.ToString() == id)
+                .Include(c => c.Category)
+                .Select(c => new AddComponentViewModel()
+                {
+                    Id = c.Id,
+                    Category = c.Category.Name,
+                    ImageUrl = c.ImageUrl,
+                    Manufacturer = c.Manufacturer,
+                    Model = c.Model,
+                    Price = c.Price,
+                    Specifications = c.Specifications.Select(s => new SpecificationsViewModel()
+                    {
+                        Id = s.Id,
+                        Description = s.Description,
+                        Title = s.Title
+                    })
+                    .ToList()
+                })
+                .FirstOrDefaultAsync();
+
+            return component;
         }
 
         public async Task<AddComponentViewModel> GenerateDefaultModel()
@@ -97,9 +124,9 @@ namespace PCBuilder.Core.Services
             return component;
         }
 
-        public List<AddComponentViewModel> GetAllComponents(string name)
+        public async Task<List<AddComponentViewModel>> GetAllComponents(string name)
         {
-            var components = repo.All<Component>()
+            var components = await repo.All<Component>()
                 .Where(c => c.Category.Name == name)
                 .Select(c => new AddComponentViewModel()
                 {
@@ -117,9 +144,56 @@ namespace PCBuilder.Core.Services
                     })
                     .ToList()
                 })
-                .ToList();
+                .ToListAsync();
 
             return components;
+        }
+
+        public async Task<bool> EditComponent(AddComponentViewModel model)
+        {
+            var result = false;
+
+            var specifications = model.Specifications
+                .Select(s => new Specification()
+                {
+                    Id = s.Id,
+                    Title = s.Title,
+                    Description = s.Description
+                })
+                .ToList();
+
+            var component = await repo.GetByIdAsync<Component>(model.Id);
+
+            if (component != null)
+            {
+                component.Model = model.Model;
+                component.ImageUrl = model.ImageUrl;
+                component.Manufacturer = model.Manufacturer;
+                component.Price = model.Price;
+                component.Specifications = specifications;
+
+                await repo.SaveChangesAsync();
+                result = true;
+            }
+
+            return result;
+        }
+
+        public async Task<bool> RemoveComponent(Guid id)
+        {
+            var result = false;
+
+            var component = await repo.GetByIdAsync<Component>(id);
+
+            if (component != null)
+            {
+                await repo.DeleteAsync<Component>(id);
+                await repo.SaveChangesAsync();
+
+                result = true;
+            }
+
+            return result;
         }
     }
 }

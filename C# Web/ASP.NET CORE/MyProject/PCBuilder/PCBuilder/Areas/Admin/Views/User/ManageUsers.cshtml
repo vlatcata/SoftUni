@@ -31,7 +31,10 @@
                         @foreach (var user in Model)
                         {
                             <tr>
-                                <td>@user.Name</td>
+                                <td>
+                                    <img src="~/img/avatar4.png" class="img-circle elevation-2" alt="User Image" style="width: 25px">
+                                    @user.Name
+                                </td>
                                 <td>@user.Email</td>
                                 <td>
                                     <a asp-area="admin" asp-action="edit" asp-controller="user" asp-route-id="@user.Id" class="btn btn-block btn-outline-info btn-xs">Edit</a>
