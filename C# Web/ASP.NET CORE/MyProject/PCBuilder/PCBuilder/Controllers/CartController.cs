@@ -54,12 +54,52 @@ namespace PCBuilder.Controllers
                 ViewData[MessageConstant.ErrorMessage] = "Something went wrong!";
             }
 
-            return RedirectToAction("Cart");
+            return Redirect("/Home/Index");
         }
 
-        public IActionResult DetailsComponent()
+        public async Task<IActionResult> DetailsComponent(string id)
         {
-            return View();
+            var component = await cartService.GetComponent(id);
+
+            return View(component);
+        }
+
+        public async Task<IActionResult> EditComponent(string id)
+        {
+            var component = await cartService.GetComponent(id);
+
+            return View(component);
+        }
+
+        [Authorize(Roles = UserConstants.Roles.Administrator)]
+        [HttpPost]
+        public async Task<IActionResult> EditComponent(AddComponentViewModel viewModel)
+        {
+            if (await cartService.EditComponent(viewModel))
+            {
+                ViewData[MessageConstant.SuccessMessage] = "Component Information was updated";
+            }
+            else
+            {
+                ViewData[MessageConstant.ErrorMessage] = "Component Information was not updated";
+            }
+
+            return Redirect("/Home/Index");
+        }
+
+        [Authorize(Roles = UserConstants.Roles.Administrator)]
+        public async Task<IActionResult> RemoveComponent(Guid id)
+        {
+            if (await cartService.RemoveComponent(id))
+            {
+                ViewData[MessageConstant.SuccessMessage] = "Component was deleted";
+            }
+            else
+            {
+                ViewData[MessageConstant.ErrorMessage] = "Component was not deleted";
+            }
+
+            return Redirect("/Home/Index");
         }
 
         public IActionResult ReplaceComponent()
