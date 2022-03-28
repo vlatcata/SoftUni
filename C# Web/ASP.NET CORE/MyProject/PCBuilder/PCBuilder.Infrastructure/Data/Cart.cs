@@ -10,7 +10,6 @@ namespace PCBuilder.Infrastructure.Data
         {
             Id = Guid.NewGuid();
             Components = new List<Component>();
-            TotalPrice = Components.Sum(c => c.Price);
         }
 
         [Key]
@@ -18,6 +17,9 @@ namespace PCBuilder.Infrastructure.Data
 
         [Column(TypeName = "Money")]
         public decimal TotalPrice { get; set; }
+
+        [Required]
+        public string UserId { get; set; }
 
         public List<Component> Components { get; set; }
     }

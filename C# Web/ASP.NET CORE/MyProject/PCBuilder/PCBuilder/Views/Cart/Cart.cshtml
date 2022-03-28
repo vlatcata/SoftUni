@@ -18,7 +18,12 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Cart</h3>
+                    <h3 class="card-title">Cart  @Model.TotalPrice $$</h3>
+
+                    <a class="btn btn-primary btn-sm" asp-controller="Cart" asp-action="ClearCart" asp-route-id="@Model.CartId.ToString()">
+                        <i class="fas fa-folder"></i>
+                        Clear Cart
+                    </a>
 
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -57,12 +62,10 @@
                                     <td>
                                         <a>
                                             @component.Manufacturer @component.Model
-                                            Nvidia Gforce RTX 3070
                                         </a>
                                         <br />
                                         <small>
                                             @component.Price
-                                            16GB
                                         </small>
                                     </td>
                                     <td>
@@ -72,19 +75,16 @@
                                         <span class="badge badge-success" style="float: left">Available</span>
                                     </td>
                                     <td class="project-actions text-right">
-                                        <a class="btn btn-primary btn-sm" href="/DetailsComponent/{id}">
-                                            <i class="fas fa-folder">
-                                            </i>
+                                        <a class="btn btn-primary btn-sm" asp-controller="Cart" asp-action="DetailsComponent" asp-route-id="@component.Id">
+                                            <i class="fas fa-folder"></i>
                                             Details
                                         </a>
-                                        <a class="btn btn-info btn-sm" href="/ReplaceComponent/{id}">
-                                            <i class="fas fa-pencil-alt">
-                                            </i>
+                                        <a class="btn btn-info btn-sm" asp-controller="Cart" asp-action="ReplaceComponent" asp-route-id="@component.Id">
+                                            <i class="fas fa-pencil-alt"></i>
                                             Replace
                                         </a>
-                                        <a class="btn btn-danger btn-sm" href="/RemoveComponent/{id}">
-                                            <i class="fas fa-trash">
-                                            </i>
+                                        <a class="btn btn-danger btn-sm" asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@component.Id">
+                                            <i class="fas fa-trash"></i>
                                             Remove
                                         </a>
                                     </td>
@@ -96,9 +96,4 @@
             </div>
         </section>
     </div>
-
-    <footer class="main-footer">
-        <strong>Copyright &copy; 2014-@DateTime.Today <a href="/">PCBuilder</a>.</strong> All rights reserved.
-    </footer>
-
 </div>

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PCBuilder.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using PCBuilder.Infrastructure.Data;
 namespace PCBuilder.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220328161110_AddingUserIdToCart")]
+    partial class AddingUserIdToCart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +23,6 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("CartComponent", b =>
-                {
-                    b.Property<Guid>("CartsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ComponentsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("CartsId", "ComponentsId");
-
-                    b.HasIndex("ComponentsId");
-
-                    b.ToTable("CartComponent");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -212,6 +199,9 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("CartId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
@@ -236,6 +226,8 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                         .HasColumnType("money");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CartId");
 
                     b.HasIndex("CategoryId");
 
@@ -359,21 +351,6 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                     b.ToTable("Specifications");
                 });
 
-            modelBuilder.Entity("CartComponent", b =>
-                {
-                    b.HasOne("PCBuilder.Infrastructure.Data.Cart", null)
-                        .WithMany()
-                        .HasForeignKey("CartsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PCBuilder.Infrastructure.Data.Component", null)
-                        .WithMany()
-                        .HasForeignKey("ComponentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -427,6 +404,10 @@ namespace PCBuilder.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Component", b =>
                 {
+                    b.HasOne("PCBuilder.Infrastructure.Data.Cart", null)
+                        .WithMany("Components")
+                        .HasForeignKey("CartId");
+
                     b.HasOne("PCBuilder.Infrastructure.Data.Category", "Category")
                         .WithMany("Components")
                         .HasForeignKey("CategoryId")
@@ -456,6 +437,11 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Component");
+                });
+
+            modelBuilder.Entity("PCBuilder.Infrastructure.Data.Cart", b =>
+                {
+                    b.Navigation("Components");
                 });
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Category", b =>

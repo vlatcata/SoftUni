@@ -37,15 +37,19 @@ namespace PCBuilder.Core.Services
                 Manufacturer = model.Manufacturer,
                 Model = model.Model,
                 Category = category,
-                CategoryId = category.Id,
-                Specifications = model.Specifications.Select(s => new Specification()
-                {
-                    Id = s.Id,
-                    Title = s.Title,
-                    Description = s.Description
-                })
-                .ToList()
+                CategoryId = category.Id
             };
+
+            var specification = model.Specifications.Select(s => new Specification()
+            {
+                Component = component,
+                Id = s.Id,
+                Title = s.Title,
+                Description = s.Description
+            })
+                .ToList();
+
+            component.Specifications = specification;
 
             try
             {
@@ -166,6 +170,7 @@ namespace PCBuilder.Core.Services
 
             if (component != null)
             {
+                component.Category.Name = model.Category;
                 component.Model = model.Model;
                 component.ImageUrl = model.ImageUrl;
                 component.Manufacturer = model.Manufacturer;
@@ -192,6 +197,129 @@ namespace PCBuilder.Core.Services
 
                 result = true;
             }
+
+            return result;
+        }
+
+        private Cart GetCart(string userId)
+        {
+            var cart = repo.All<Cart>()
+                .Where(c => c.UserId == userId)
+                .Include(c => c.Components)
+                .FirstOrDefault();
+
+            return cart;
+        }
+
+        public async Task<bool> AddToCart(string userId, string productId)
+        {
+            var cartExists = true;
+
+            var cart = GetCart(userId);
+
+            if (cart == null)
+            {
+                cart = new Cart()
+                {
+                    UserId = userId
+                };
+
+                cartExists = false;
+            }
+
+            var component = await repo.All<Component>()
+                .Where(c => c.Id.ToString() == productId)
+                .FirstOrDefaultAsync();
+
+            //if (component == null || cart.Components.Any(c => c.Category.Name == component.Category.Name))
+            //{
+            //    return false;
+            //}
+
+            cart.Components.Add(component);
+            cart.TotalPrice = cart.Components.Sum(c => c.Price);
+
+            if (!cartExists)
+            {
+                await repo.AddAsync(cart);
+            }
+
+            await repo.SaveChangesAsync();
+
+            return true;
+        }
+
+        public Task<CartViewModel> GetCartComponents(string userId)
+        {
+            var cart = repo.All<Cart>()
+                .Where(c => c.UserId == userId)
+                .Select(c => new CartViewModel()
+                {
+                    UserId = userId,
+                    CartId = c.Id,
+                    Components = c.Components.Select(co => new AddComponentViewModel()
+                    {
+                        Category = co.Category.ToString(),
+                        Id = co.Id,
+                        ImageUrl = co.ImageUrl,
+                        Manufacturer = co.Manufacturer,
+                        Model = co.Model,
+                        Price = co.Price,
+                        Specifications = co.Specifications.Select(s => new SpecificationsViewModel()
+                        {
+                            Description = s.Description,
+                            Id = s.Id,
+                            Title = s.Title
+                        })
+                        .ToList()
+                    })
+                    .ToList(),
+                    TotalPrice = c.TotalPrice,
+                })
+                .FirstOrDefaultAsync();
+
+            return cart;
+        }
+
+        public async Task<bool> RemoveFromCart(string userId, string componentId)
+        {
+            var result = false;
+
+            var cart = GetCart(userId);
+
+            if (cart == null)
+            {
+                result = false;
+            }
+
+            var componentToRemove = cart.Components.Where(c => c.Id.ToString() == componentId).FirstOrDefault();
+
+            if (cart.Components.Remove(componentToRemove))
+            {
+                await repo.SaveChangesAsync();
+                result = true;
+            }
+
+            return result;
+        }
+
+        public async Task<bool> ClearCart(string cartId)
+        {
+            var result = false;
+
+            var cart = repo.All<Cart>()
+                .Where(c => c.UserId == cartId)
+                .FirstOrDefault();
+
+            if (cart == null)
+            {
+                result = false;
+            }
+
+            cart.Components.Clear();
+
+            await repo.SaveChangesAsync();
+            result = true;
 
             return result;
         }

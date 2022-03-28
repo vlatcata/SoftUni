@@ -27,8 +27,8 @@ namespace PCBuilder.Infrastructure.Data
             base.OnModelCreating(modelBuilder);
 
             //modelBuilder.Entity<Component>()
-            //    .HasIndex(c => c.CategoryId)
-            //    .IsUnique();
+            //    .HasOne(c => c.Category)
+            //    .HasMany(c => c.CartId.ToString());
         }
     }
 }

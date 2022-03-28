@@ -4,13 +4,15 @@
     {
         public CartViewModel()
         {
-            TotalPrice = Components.Sum(c => c.Price);
+            Components = new List<AddComponentViewModel>();
         }
 
-        public Guid CartId { get; set; } = Guid.NewGuid();
+        public Guid CartId { get; set; }
+
+        public string UserId { get; set; }
 
         public decimal TotalPrice { get; set; }
 
-        public List<AddComponentViewModel>? Components { get; set; } = new List<AddComponentViewModel>();
+        public List<AddComponentViewModel> Components { get; set; }
     }
 }
