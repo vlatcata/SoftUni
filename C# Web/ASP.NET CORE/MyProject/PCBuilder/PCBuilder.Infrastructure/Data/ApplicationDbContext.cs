@@ -21,14 +21,32 @@ namespace PCBuilder.Infrastructure.Data
 
         public DbSet<Specification> Specifications { get; set; }
 
+        public DbSet<CartComponent> CartComponent { get; set; }
+
+
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            //modelBuilder.Entity<Component>()
-            //    .HasOne(c => c.Category)
-            //    .HasMany(c => c.CartId.ToString());
+            modelBuilder.Entity<CartComponent>()
+                .HasKey(c => new { c.CartId, c.ComponentId });
+
+            modelBuilder.Entity<CartComponent>()
+                .HasOne(c => c.Cart)
+                .WithMany(c => c.CartComponents)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<CartComponent>()
+                .HasOne(c => c.Component)
+                .WithMany(c => c.ComponentCarts)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            //modelBuilder.Entity<Cart>()
+            //    .HasOne(a => a.TotalPrice)
+            //    .WithOne(x => x.User);
         }
     }
 }

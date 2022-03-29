@@ -9,7 +9,7 @@ namespace PCBuilder.Infrastructure.Data
         {
             Id = Guid.NewGuid();
             Specifications = new List<Specification>();
-            Carts = new List<Cart>();
+            ComponentCarts = new List<CartComponent>();
         }
 
         [Key]
@@ -30,7 +30,7 @@ namespace PCBuilder.Infrastructure.Data
         [Column(TypeName = "money")]
         public decimal Price { get; set; }
 
-        public List<Cart> Carts { get; set; }
+        public ICollection<CartComponent> ComponentCarts { get; set; }
 
         [ForeignKey(nameof(CategoryId))]
         [Required]

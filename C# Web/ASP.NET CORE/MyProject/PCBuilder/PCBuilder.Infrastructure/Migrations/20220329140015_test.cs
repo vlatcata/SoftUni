@@ -45,10 +45,39 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "CartComponents",
+                columns: table => new
+                {
+                    CartId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ComponentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CartComponents", x => new { x.CartId, x.ComponentId });
+                    table.ForeignKey(
+                        name: "FK_CartComponents_Carts_CartId",
+                        column: x => x.CartId,
+                        principalTable: "Carts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CartComponents_Components_ComponentId",
+                        column: x => x.ComponentId,
+                        principalTable: "Components",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_CartComponent_ComponentsId",
                 table: "CartComponent",
                 column: "ComponentsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CartComponents_ComponentId",
+                table: "CartComponents",
+                column: "ComponentId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -56,12 +85,14 @@ namespace PCBuilder.Infrastructure.Data.Migrations
             migrationBuilder.DropTable(
                 name: "CartComponent");
 
+            migrationBuilder.DropTable(
+                name: "CartComponents");
+
             migrationBuilder.AddColumn<Guid>(
                 name: "CartId",
                 table: "Components",
                 type: "uniqueidentifier",
-                nullable: false,
-                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
+                nullable: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Components_CartId",
@@ -73,8 +104,7 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                 table: "Components",
                 column: "CartId",
                 principalTable: "Carts",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                principalColumn: "Id");
         }
     }
 }

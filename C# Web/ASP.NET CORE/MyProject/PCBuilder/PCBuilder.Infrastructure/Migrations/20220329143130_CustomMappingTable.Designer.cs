@@ -12,8 +12,8 @@ using PCBuilder.Infrastructure.Data;
 namespace PCBuilder.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220328170425_FixedCartPrice")]
-    partial class FixedCartPrice
+    [Migration("20220329143130_CustomMappingTable")]
+    partial class CustomMappingTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -177,6 +177,21 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Carts");
+                });
+
+            modelBuilder.Entity("PCBuilder.Infrastructure.Data.CartComponent", b =>
+                {
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ComponentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CartId", "ComponentId");
+
+                    b.HasIndex("ComponentId");
+
+                    b.ToTable("CartComponent");
                 });
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Category", b =>
@@ -402,6 +417,25 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("PCBuilder.Infrastructure.Data.CartComponent", b =>
+                {
+                    b.HasOne("PCBuilder.Infrastructure.Data.Cart", "Cart")
+                        .WithMany("CartComponents")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("PCBuilder.Infrastructure.Data.Component", "Component")
+                        .WithMany("ComponentCarts")
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Component");
+                });
+
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Component", b =>
                 {
                     b.HasOne("PCBuilder.Infrastructure.Data.Cart", null)
@@ -441,6 +475,8 @@ namespace PCBuilder.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Cart", b =>
                 {
+                    b.Navigation("CartComponents");
+
                     b.Navigation("Components");
                 });
 
@@ -451,6 +487,8 @@ namespace PCBuilder.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Component", b =>
                 {
+                    b.Navigation("ComponentCarts");
+
                     b.Navigation("Specifications");
                 });
 

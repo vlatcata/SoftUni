@@ -4,6 +4,7 @@ using PCBuilder.Core.Contracts;
 using PCBuilder.Core.Models.Cart;
 using PCBuilder.Infrastructure.Data;
 using PCBuilder.Infrastructure.Data.Enums;
+using PCBuilder.Infrastructure.Data.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -211,7 +212,7 @@ namespace PCBuilder.Core.Services
             return cart;
         }
 
-        public async Task<bool> AddToCart(string userId, string productId)
+        public async Task<bool> AddToCart(string userId, string componentId)
         {
             var cartExists = true;
 
@@ -228,8 +229,20 @@ namespace PCBuilder.Core.Services
             }
 
             var component = await repo.All<Component>()
-                .Where(c => c.Id.ToString() == productId)
+                .Where(c => c.Id.ToString() == componentId)
                 .FirstOrDefaultAsync();
+
+            //var cartComponent = repo.All<CartComponent>()
+            //    .Where(c => c.CartId == cart.Id)
+            //    .FirstOrDefault();
+
+            var cartComponent = new CartComponent()
+            {
+                CartId = cart.Id,
+                ComponentId = component.Id
+            };
+
+            cart.CartComponents.Add(cartComponent);
 
             //if (component == null || cart.Components.Any(c => c.Category.Name == component.Category.Name))
             //{
@@ -249,9 +262,9 @@ namespace PCBuilder.Core.Services
             return true;
         }
 
-        public Task<CartViewModel> GetCartComponents(string userId)
+        public async Task<CartViewModel> GetCartComponents(string userId)
         {
-            var cart = repo.All<Cart>()
+            var cart = await repo.All<Cart>()
                 .Where(c => c.UserId == userId)
                 .Select(c => new CartViewModel()
                 {
@@ -292,9 +305,10 @@ namespace PCBuilder.Core.Services
                 result = false;
             }
 
-            var componentToRemove = cart.Components.Where(c => c.Id.ToString() == componentId).FirstOrDefault();
+            var componentToRemoveFromCart = cart.Components.Where(c => c.Id.ToString() == componentId).FirstOrDefault();
+            var componentToRemove = repo.All<CartComponent>().Where(c => c.CartId == cart.Id && c.ComponentId.ToString() == componentId).FirstOrDefault();
 
-            if (cart.Components.Remove(componentToRemove))
+            if (cart.Components.Remove(componentToRemoveFromCart) && cart.CartComponents.Remove(componentToRemove))
             {
                 await repo.SaveChangesAsync();
                 result = true;
@@ -308,7 +322,7 @@ namespace PCBuilder.Core.Services
             var result = false;
 
             var cart = repo.All<Cart>()
-                .Where(c => c.UserId == cartId)
+                .Where(c => c.Id.ToString() == cartId)
                 .FirstOrDefault();
 
             if (cart == null)

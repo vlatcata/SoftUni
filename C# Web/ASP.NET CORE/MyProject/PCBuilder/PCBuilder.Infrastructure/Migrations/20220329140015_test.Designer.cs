@@ -12,7 +12,7 @@ using PCBuilder.Infrastructure.Data;
 namespace PCBuilder.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220328192024_test")]
+    [Migration("20220329140015_test")]
     partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -192,6 +192,21 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Carts");
+                });
+
+            modelBuilder.Entity("PCBuilder.Infrastructure.Data.CartComponents", b =>
+                {
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ComponentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CartId", "ComponentId");
+
+                    b.HasIndex("ComponentId");
+
+                    b.ToTable("CartComponents");
                 });
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Category", b =>
@@ -425,6 +440,25 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PCBuilder.Infrastructure.Data.CartComponents", b =>
+                {
+                    b.HasOne("PCBuilder.Infrastructure.Data.Cart", "Cart")
+                        .WithMany()
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PCBuilder.Infrastructure.Data.Component", "Component")
+                        .WithMany()
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Component");
                 });
 
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Component", b =>

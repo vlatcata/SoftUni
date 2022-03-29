@@ -88,6 +88,11 @@ namespace PCBuilder.Areas.Admin.Controllers
         {
             //await roleManager.CreateAsync(new IdentityRole()
             //{
+            //    Name = "Administrator"
+            //});
+
+            //await roleManager.CreateAsync(new IdentityRole()
+            //{
             //    Name = "Guest"
             //});
 

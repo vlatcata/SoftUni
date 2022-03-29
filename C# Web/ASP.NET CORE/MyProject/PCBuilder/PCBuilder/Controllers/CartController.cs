@@ -108,9 +108,8 @@ namespace PCBuilder.Controllers
         public async Task<IActionResult> AddToCart(Guid id)
         {
             var user = await userManager.GetUserAsync(User);
-            var userId = user.Id;
             
-            if(await cartService.AddToCart(userId, id.ToString()))
+            if(await cartService.AddToCart(user.Id, id.ToString()))
             {
                 ViewData[MessageConstant.SuccessMessage] = "Component added to cart";
             }
@@ -143,7 +142,7 @@ namespace PCBuilder.Controllers
             var user = await userManager.GetUserAsync(User);
             //var cart = await cartService.GetCartComponents(user.Id);
 
-            if (await cartService.ClearCart(id))
+            if (await cartService.ClearCart(user.Id))
             {
                 ViewData[MessageConstant.SuccessMessage] = "Component removed Successfully";
             }
