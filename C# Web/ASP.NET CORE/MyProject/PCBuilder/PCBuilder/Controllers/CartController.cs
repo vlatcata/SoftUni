@@ -140,9 +140,9 @@ namespace PCBuilder.Controllers
         public async Task<IActionResult> ClearCart(string id)
         {
             var user = await userManager.GetUserAsync(User);
-            //var cart = await cartService.GetCartComponents(user.Id);
+            var cart = await cartService.GetCartComponents(user.Id);
 
-            if (await cartService.ClearCart(user.Id))
+            if (await cartService.ClearCart(cart.CartId.ToString()))
             {
                 ViewData[MessageConstant.SuccessMessage] = "Component removed Successfully";
             }

@@ -26,8 +26,7 @@ body {
 }
 
 .cart-details-btn{
-    padding-top: 655px;
-    padding-left: 27px;
+    padding-top: 480px;
 }
 
 .btn-edit-cancel{
@@ -46,3 +45,6 @@ body {
     max-height: 105px
 }
 
+.sidebar-cart{
+    padding: 5px;
+}

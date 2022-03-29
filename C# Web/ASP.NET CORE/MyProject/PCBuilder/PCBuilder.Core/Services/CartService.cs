@@ -171,7 +171,6 @@ namespace PCBuilder.Core.Services
 
             if (component != null)
             {
-                component.Category.Name = model.Category;
                 component.Model = model.Model;
                 component.ImageUrl = model.ImageUrl;
                 component.Manufacturer = model.Manufacturer;
@@ -232,9 +231,10 @@ namespace PCBuilder.Core.Services
                 .Where(c => c.Id.ToString() == componentId)
                 .FirstOrDefaultAsync();
 
-            //var cartComponent = repo.All<CartComponent>()
-            //    .Where(c => c.CartId == cart.Id)
-            //    .FirstOrDefault();
+            if (cart.Components.Any(c => c.Category == component.Category))
+            {
+                return false;
+            }
 
             var cartComponent = new CartComponent()
             {
@@ -321,16 +321,24 @@ namespace PCBuilder.Core.Services
         {
             var result = false;
 
-            var cart = repo.All<Cart>()
+            var cart = await repo.All<Cart>()
                 .Where(c => c.Id.ToString() == cartId)
-                .FirstOrDefault();
+                .Include(c => c.Components)
+                .Include(c => c.CartComponents)
+                .FirstOrDefaultAsync();
 
             if (cart == null)
             {
                 result = false;
             }
 
+            foreach (var component in cart.CartComponents.ToList())
+            {
+                cart.CartComponents.Remove(component);
+            }
+
             cart.Components.Clear();
+            cart.TotalPrice = 0;
 
             await repo.SaveChangesAsync();
             result = true;

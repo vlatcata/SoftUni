@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using PCBuilder.Core.Models.Cart
+@{
+    //var viewModel = (CartViewModel)ViewBag.ViewModel;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -125,18 +130,20 @@
             <div class="p-3">
                 <h5>Cart</h5>
                 <p>Sidebar content</p>
-            </div>
 
-            <div class="cart-details-btn">
-                <a class="btn btn-info btn-sm" href="/Cart/Cart">
-                    <i class="fas fa-shopping-cart"></i>
-                    Cart Details
-                </a>
+                @*<partial model="CartViewModel" name="_SidebarContent">*@
 
-                <a class="btn btn-info btn-sm" href="/Cart/Buy">
-                    <i class="far fa-credit-card"></i>
-                    Build PC
-                </a>
+                <div class="cart-details-btn">
+                    <a class="btn btn-info btn-sm" href="/Cart/Cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        Cart Details
+                    </a>
+
+                    <a class="btn btn-info btn-sm" href="/Cart/Buy">
+                        <i class="far fa-credit-card"></i>
+                        Build PC
+                    </a>
+                </div>
             </div>
         </aside>
         <!-- /.control-sidebar -->

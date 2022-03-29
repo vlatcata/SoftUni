@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using PCBuilder.Core.Constants;
 using PCBuilder.Core.Contracts;
 using PCBuilder.Core.Models.Cart;
+using PCBuilder.Infrastructure.Data.Identity;
 using PCBuilder.Models;
 using System.Diagnostics;
 
@@ -11,15 +13,35 @@ namespace PCBuilder.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ICartService cartService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public HomeController(ILogger<HomeController> logger, ICartService _cartService)
+        public HomeController(ILogger<HomeController> logger, ICartService _cartService, UserManager<ApplicationUser> _userManager)
         {
             _logger = logger;
             cartService = _cartService;
+            userManager = _userManager;
         }
 
-        public IActionResult Index()
+        public PartialViewResult Action()
         {
+            var user = userManager.GetUserAsync(User);
+            var model = cartService.GetCartComponents(user.Id.ToString());
+
+            return PartialView("~/Views/Shared/_SidebarContent.cshtml", model);
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            //var user = await userManager.GetUserAsync(User);
+            //var cart = await cartService.GetCartComponents(user.Id);
+
+            //ViewBag.ViewModel = cart;
+
+            //if (cart.Components == null || cart.Components.Count <= 0)
+            //{
+            //    return View();
+            //}
+
             return View();
         }
 
