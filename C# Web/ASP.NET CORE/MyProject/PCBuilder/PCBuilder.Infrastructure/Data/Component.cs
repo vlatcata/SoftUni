@@ -24,6 +24,7 @@ namespace PCBuilder.Infrastructure.Data
         public string Model { get; set; }
 
         [Required]
+        [StringLength(250)]
         public string ImageUrl { get; set; }
 
         [Required]

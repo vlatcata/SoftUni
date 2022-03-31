@@ -41,10 +41,20 @@ body {
 }
 
 .img-cpu{
-    max-width: 105px;
-    max-height: 105px
+    max-width: 115px;
+    max-height: 115px
 }
 
 .sidebar-cart{
     padding: 5px;
+}
+
+.cart-total-price{
+    padding-left: 10px
+}
+
+.clear-cart-btn {
+    position: relative;
+    left: 1350px;
+    bottom: 2px;
 }

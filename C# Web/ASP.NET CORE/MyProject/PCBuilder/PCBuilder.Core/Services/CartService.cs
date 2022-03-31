@@ -229,6 +229,7 @@ namespace PCBuilder.Core.Services
 
             var component = await repo.All<Component>()
                 .Where(c => c.Id.ToString() == componentId)
+                .Include(c => c.Category)
                 .FirstOrDefaultAsync();
 
             if (cart.Components.Any(c => c.Category == component.Category))

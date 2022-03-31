@@ -1,5 +1,4 @@
-﻿using PCBuilder.Infrastructure.Data.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PCBuilder.Infrastructure.Data
 {
@@ -14,7 +13,9 @@ namespace PCBuilder.Infrastructure.Data
         [Key]
         public Guid Id { get; set; }
 
-        public string? Name { get; set; }
+        [Required]
+        [StringLength(100)]
+        public string Name { get; set; }
 
         public List<Component> Components { get; set; }
     }
