@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PCBuilder.Core.Constants;
 using PCBuilder.Core.Contracts;
 using PCBuilder.Core.Models.Cart;
+using PCBuilder.Core.Models.Home;
 using PCBuilder.Infrastructure.Data.Identity;
 using PCBuilder.Models;
 using System.Diagnostics;
@@ -12,14 +13,16 @@ namespace PCBuilder.Controllers
     public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ICartService cartService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly ICartService cartService;
+        private readonly IComputerService computerService;
 
-        public HomeController(ILogger<HomeController> logger, ICartService _cartService, UserManager<ApplicationUser> _userManager)
+        public HomeController(ILogger<HomeController> logger, ICartService _cartService, UserManager<ApplicationUser> _userManager, IComputerService _computerService)
         {
             _logger = logger;
             cartService = _cartService;
             userManager = _userManager;
+            computerService = _computerService;
         }
 
         public PartialViewResult Action()
@@ -42,6 +45,37 @@ namespace PCBuilder.Controllers
             //    return View();
             //}
 
+            return View();
+        }
+
+        public async Task<IActionResult> Computers()
+        {
+            var user = userManager.GetUserAsync(User).Result;
+            var computers = computerService.GetUserComputers(user.Id.ToString()).Result;
+
+            return View(computers);
+        }
+
+        public async Task<IActionResult> BuildComputer()
+        {
+            var user = userManager.GetUserAsync(User).Result;
+            var components = cartService.GetCartComponents(user.Id.ToString()).Result;
+
+            if (await computerService.BuildComputer(components))
+            {
+                await cartService.ClearCart(components.CartId.ToString());
+                ViewData[MessageConstant.SuccessMessage] = "Computer was created successfully!";
+            }
+            else
+            {
+                ViewData[MessageConstant.ErrorMessage] = "Something went wrong!";
+            }
+
+            return RedirectToAction("Computers");
+        }
+
+        public async Task<IActionResult> DetailsComputer(string computerId)
+        {
             return View();
         }
 

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PCBuilder.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using PCBuilder.Infrastructure.Data;
 namespace PCBuilder.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220331144254_AddeduserIdToComputer")]
+    partial class AddeduserIdToComputer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -258,11 +260,16 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Computers");
                 });
@@ -455,6 +462,13 @@ namespace PCBuilder.Infrastructure.Data.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("PCBuilder.Infrastructure.Data.Computer", b =>
+                {
+                    b.HasOne("PCBuilder.Infrastructure.Data.Identity.ApplicationUser", null)
+                        .WithMany("Computers")
+                        .HasForeignKey("ApplicationUserId");
+                });
+
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Specification", b =>
                 {
                     b.HasOne("PCBuilder.Infrastructure.Data.Component", "Component")
@@ -488,6 +502,11 @@ namespace PCBuilder.Infrastructure.Data.Migrations
             modelBuilder.Entity("PCBuilder.Infrastructure.Data.Computer", b =>
                 {
                     b.Navigation("Components");
+                });
+
+            modelBuilder.Entity("PCBuilder.Infrastructure.Data.Identity.ApplicationUser", b =>
+                {
+                    b.Navigation("Computers");
                 });
 #pragma warning restore 612, 618
         }

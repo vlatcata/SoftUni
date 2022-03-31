@@ -14,6 +14,9 @@ namespace PCBuilder.Infrastructure.Data
         public Guid Id { get; set; }
 
         [Required]
+        public string UserId { get; set; }
+
+        [Required]
         public List<Component> Components { get; set; }
     }
 }

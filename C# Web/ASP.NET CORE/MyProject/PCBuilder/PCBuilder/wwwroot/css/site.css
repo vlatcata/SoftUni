@@ -50,17 +50,24 @@ body {
 }
 
 .cart-total-price{
-    padding-left: 10px
+    padding-left: 10px;
+    padding-top: 20px
 }
 
 .clear-cart-btn {
     position: relative;
-    left: 1350px;
-    bottom: 2px;
+    left: 1330px;
+    bottom: 6px;
 }
 
 .details-component{
     padding-left: 300px;
     padding-right: 300px;
     padding-bottom: 20px;
+}
+
+.build-pc-button {
+    position: relative;
+    left: 1140px;
+    bottom: 6px;
 }
