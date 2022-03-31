@@ -14,5 +14,7 @@ namespace PCBuilder.Core.Contracts
         Task<CartViewModel> GetCartComponents(string userId);
         Task<bool> RemoveFromCart(string userId, string productId);
         Task<bool> ClearCart(string cartId);
+
+        bool IsComponentInCart(string userId, string componentId);
     }
 }

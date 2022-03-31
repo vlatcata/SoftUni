@@ -108,6 +108,11 @@ namespace PCBuilder.Controllers
         public async Task<IActionResult> AddToCart(Guid id)
         {
             var user = await userManager.GetUserAsync(User);
+
+            if (cartService.IsComponentInCart(user.Id, id.ToString()))
+            {
+                ViewData[MessageConstant.ErrorMessage] = "You already have component of this category";
+            }
             
             if(await cartService.AddToCart(user.Id, id.ToString()))
             {

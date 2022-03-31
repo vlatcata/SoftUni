@@ -58,3 +58,9 @@ body {
     left: 1350px;
     bottom: 2px;
 }
+
+.details-component{
+    padding-left: 300px;
+    padding-right: 300px;
+    padding-bottom: 20px;
+}

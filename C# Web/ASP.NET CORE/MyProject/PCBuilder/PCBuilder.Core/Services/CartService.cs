@@ -26,20 +26,27 @@ namespace PCBuilder.Core.Services
         {
             bool result = false;
 
-            var category = new Category()
-            {
-                Name = model.Category
-            };
-
             var component = new Component()
             {
                 Price = model.Price,
                 ImageUrl = model.ImageUrl,
                 Manufacturer = model.Manufacturer,
-                Model = model.Model,
-                Category = category,
-                CategoryId = category.Id
+                Model = model.Model
             };
+
+            var category = await repo.All<Category>()
+            .Where(c => c.Name == model.Category)
+            .FirstOrDefaultAsync();
+
+            if (category == null)
+            {
+                category = new Category()
+                {
+                    Name = model.Category
+                };
+            }
+
+            component.Category = category;
 
             var specification = model.Specifications.Select(s => new Specification()
             {
@@ -209,6 +216,23 @@ namespace PCBuilder.Core.Services
                 .FirstOrDefault();
 
             return cart;
+        }
+
+        public bool IsComponentInCart(string userId, string componentId)
+        {
+            var cart = repo.All<Cart>()
+                .Where(c => c.UserId == userId)
+                .Include(c => c.Components)
+                .FirstOrDefault();
+
+            var component = repo.All<Component>()
+                .Where(c => c.Id.ToString() == componentId)
+                .Include(c => c.Category)
+                .FirstOrDefault();
+
+            var isInCart = cart.Components.Select(c => c.CategoryId == component.CategoryId).FirstOrDefault();
+
+            return isInCart;
         }
 
         public async Task<bool> AddToCart(string userId, string componentId)
