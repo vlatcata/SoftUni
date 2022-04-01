@@ -71,3 +71,14 @@ body {
     left: 1140px;
     bottom: 6px;
 }
+
+.computer-details-price{
+    padding-left: 12px
+}
+
+.computer-details-img {
+    width: 400px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

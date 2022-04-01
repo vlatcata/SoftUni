@@ -11,8 +11,9 @@
                 @foreach (var component in @Model.Components)
                 {
                     <div class="form-group">
-                        <h3>@component.Category: @component.Model</h3>
-                        <img asp-for="ImageUrl" src="@component.ImageUrl" style="width:200px;" />
+                        
+                        <label class="btn btn-block bg-gradient-info btn-lg">@component.Category: @component.Model</label>
+                        <img asp-for="ImageUrl" src="@component.ImageUrl" class="computer-details-img" />
                     </div>
                     <div class="form-group">
                         <label asp-for="@component.Specifications">Specifications: </label>
@@ -25,9 +26,12 @@
                             <label asp-for="@component.Specifications[i].Title" class="form-control">@component.Specifications[i].Title: @component.Specifications[i].Description</label>
                         }
 
+                        <label asp-for="@component.Price" class="btn btn-block btn-outline-primary computer-details-price">Price: @component.Price</label>
                         <br />
+
                     </div>
                 }
+                <label class="btn btn-block btn-outline-primary btn-lg">Total Cost: @Model.Price</label>
             </div>
             <div class="card-footer">
                 <a asp-controller="Home" asp-action="Computers" class="btn btn-secondary">Close</a>

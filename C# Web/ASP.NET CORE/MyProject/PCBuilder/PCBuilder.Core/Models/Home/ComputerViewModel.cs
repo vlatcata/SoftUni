@@ -8,6 +8,8 @@ namespace PCBuilder.Core.Models.Home
 
         public string UserId { get; set; }
 
+        public decimal Price { get; set; }
+
         public List<AddComponentViewModel> Components { get; set; }
     }
 }

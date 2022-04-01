@@ -33,7 +33,8 @@ namespace PCBuilder.Core.Services
             var computer = new Computer()
             {
                 UserId = model.UserId,
-                Components = components
+                Components = components,
+                Price = components.Sum(c => c.Price)
             };
 
             if (computer.Components.Count < 7)
@@ -65,6 +66,7 @@ namespace PCBuilder.Core.Services
                 {
                     Id = c.Id,
                     UserId = c.UserId,
+                    Price = c.Price,
                     Components = c.Components.Select(c => new AddComponentViewModel()
                     {
                         Id= c.Id,
@@ -97,6 +99,7 @@ namespace PCBuilder.Core.Services
                 {
                     Id = c.Id,
                     UserId=userId,
+                    Price = c.Price,
                     Components = c.Components.Select(c => new AddComponentViewModel()
                     {
                         Category = c.Category.Name,
