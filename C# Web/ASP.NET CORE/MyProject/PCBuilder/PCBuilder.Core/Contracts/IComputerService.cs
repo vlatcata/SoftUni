@@ -7,5 +7,6 @@ namespace PCBuilder.Core.Contracts
     {
         Task<bool> BuildComputer(CartViewModel model);
         Task<List<ComputerViewModel>> GetUserComputers(string userId);
+        Task<ComputerViewModel> GetComputer(string computerId);
     }
 }

@@ -56,6 +56,38 @@ namespace PCBuilder.Core.Services
             return result;
         }
 
+        public async Task<ComputerViewModel> GetComputer(string computerId)
+        {
+            var computer = await repo.All<Computer>()
+                .Where(c => c.Id.ToString() == computerId)
+                .Include(c => c.Components)
+                .Select(c => new ComputerViewModel()
+                {
+                    Id = c.Id,
+                    UserId = c.UserId,
+                    Components = c.Components.Select(c => new AddComponentViewModel()
+                    {
+                        Id= c.Id,
+                        Category = c.Category.Name,
+                        ImageUrl = c.ImageUrl,
+                        Manufacturer = c.Manufacturer,
+                        Model = c.Model,
+                        Price = c.Price,
+                        Specifications = c.Specifications.Select(s => new SpecificationsViewModel()
+                        {
+                            Description = s.Description,
+                            Id = s.Id,
+                            Title = s.Title
+                        })
+                        .ToList()
+                    })
+                    .ToList()
+                })
+                .FirstOrDefaultAsync();
+
+            return computer;
+        }
+
         public async Task<List<ComputerViewModel>> GetUserComputers(string userId)
         {
             var computers = await repo.All<Computer>()
@@ -63,10 +95,11 @@ namespace PCBuilder.Core.Services
                 .Include(c => c.Components)
                 .Select(c => new ComputerViewModel()
                 {
+                    Id = c.Id,
                     UserId=userId,
                     Components = c.Components.Select(c => new AddComponentViewModel()
                     {
-                        Category = c.Category.ToString(),
+                        Category = c.Category.Name,
                         Id = c.Id,
                         ImageUrl = c.ImageUrl,
                         Manufacturer = c.Manufacturer,

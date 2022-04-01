@@ -74,9 +74,11 @@ namespace PCBuilder.Controllers
             return RedirectToAction("Computers");
         }
 
-        public async Task<IActionResult> DetailsComputer(string computerId)
+        public async Task<IActionResult> DetailsComputer(string id)
         {
-            return View();
+            var computer = await computerService.GetComputer(id);
+
+            return View(computer);
         }
 
         public async Task<IActionResult> Cpus()
