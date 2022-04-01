@@ -61,6 +61,12 @@ namespace PCBuilder.Controllers
             var user = userManager.GetUserAsync(User).Result;
             var components = cartService.GetCartComponents(user.Id.ToString()).Result;
 
+            var result = computerService.CheckAllComponents(user.Id.ToString());
+            if (result != "Everything fits")
+            {
+                ViewData[MessageConstant.ErrorMessage] = result;
+            }
+
             if (await computerService.BuildComputer(components))
             {
                 await cartService.ClearCart(components.CartId.ToString());

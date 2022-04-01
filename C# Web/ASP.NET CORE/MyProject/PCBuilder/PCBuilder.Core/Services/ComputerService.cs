@@ -57,6 +57,28 @@ namespace PCBuilder.Core.Services
             return result;
         }
 
+        private Component GetComponentFromCart(string userId, string categoryName)
+        {
+            var cart = GetCart(userId);
+
+            var components = cart.Components;
+
+            var component = components.FirstOrDefault(c => c.Category.Name == categoryName);
+
+            return component;
+        }
+
+         private Cart GetCart(string userId)
+        {
+            var cart = repo.All<Cart>()
+                .Where(c => c.UserId == userId)
+                .Include(c => c.Components)
+                .ThenInclude(c => c.Specifications)
+                .FirstOrDefault();
+
+            return cart;
+        }
+
         public async Task<ComputerViewModel> GetComputer(string computerId)
         {
             var computer = await repo.All<Computer>()
@@ -121,6 +143,52 @@ namespace PCBuilder.Core.Services
                 .ToListAsync();
 
             return computers;
+        }
+
+        public string CheckAllComponents(string userId)
+        {
+            var result = "Everything fits";
+
+            var cpu = GetComponentFromCart(userId, "CPU");
+            var gpu = GetComponentFromCart(userId, "GPU");
+            var motherboard = GetComponentFromCart(userId, "Motherboard");
+            var ram = GetComponentFromCart(userId, "RAM");
+            var powersupply = GetComponentFromCart(userId, "Power Supply");
+            var ssd = GetComponentFromCart(userId, "SSD");
+            var pccase = GetComponentFromCart(userId, "Case");
+
+            var caseType = pccase.Specifications.Where(s => s.Title.ToString() == "Type").FirstOrDefault();
+            var caseSizes = pccase.Specifications.Where(s => s.Title.ToString() == "Supports").FirstOrDefault();
+            var gpuCaseType = gpu.Specifications.Where(s => s.Title.ToString() == "Case Type").FirstOrDefault();
+
+            var motherboardCaseType = motherboard.Specifications.Where(s => s.Title.ToString() == "Case Type").FirstOrDefault();
+            var motherboardChipset = motherboard.Specifications.Where(s => s.Title.ToString() == "Chipset").FirstOrDefault();
+
+            var cpuChipset = cpu.Specifications.Where(s => s.Title.ToString() == "Chipset").FirstOrDefault();
+
+            var powerSupplyCaseType = motherboard.Specifications.Where(s => s.Title.ToString() == "Case Type").FirstOrDefault();
+
+            if (!caseSizes.Description.Contains(gpuCaseType.Description))
+            {
+                result = "This Video Card cannot fit in this case.";
+            }
+
+            if (!caseSizes.Description.Contains(motherboardCaseType.Description))
+            {
+                result = "This Motherboard cannot fit in this case.";
+            }
+
+            if (!caseSizes.Description.Contains(powerSupplyCaseType.Description))
+            {
+                result = "This Power Supply cannot fit in this case.";
+            }
+
+            if (cpuChipset.Description != motherboardChipset.Description)
+            {
+                result = "This CPU cannot go on this Motherboard";
+            }
+
+            return result;
         }
     }
 }
