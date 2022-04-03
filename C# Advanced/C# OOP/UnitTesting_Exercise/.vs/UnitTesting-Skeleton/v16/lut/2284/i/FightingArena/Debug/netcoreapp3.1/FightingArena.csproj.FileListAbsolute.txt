@@ -1,6 +1,0 @@
-C:\Programming\Projects\UnitTesting_Exercise\.vs\UnitTesting-Skeleton\v16\lut\0\b\FightingArena\Debug\netcoreapp3.1\FightingArena.deps.json
-C:\Programming\Projects\UnitTesting_Exercise\.vs\UnitTesting-Skeleton\v16\lut\0\b\FightingArena\Debug\netcoreapp3.1\FightingArena.dll
-C:\Programming\Projects\UnitTesting_Exercise\.vs\UnitTesting-Skeleton\v16\lut\0\i\FightingArena\Debug\netcoreapp3.1\FightingArena.AssemblyInfoInputs.cache
-C:\Programming\Projects\UnitTesting_Exercise\.vs\UnitTesting-Skeleton\v16\lut\0\i\FightingArena\Debug\netcoreapp3.1\FightingArena.AssemblyInfo.cs
-C:\Programming\Projects\UnitTesting_Exercise\.vs\UnitTesting-Skeleton\v16\lut\0\i\FightingArena\Debug\netcoreapp3.1\FightingArena.csproj.CopyComplete
-C:\Programming\Projects\UnitTesting_Exercise\.vs\UnitTesting-Skeleton\v16\lut\0\i\FightingArena\Debug\netcoreapp3.1\FightingArena.dll

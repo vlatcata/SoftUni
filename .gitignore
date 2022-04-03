@@ -3,8 +3,10 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-*.min.*
-**/adminlte
+*adminlte*
+*bootstrap*
+*jquery*
+*fontawesome-free*
 
 # User-specific files
 *.rsuser
